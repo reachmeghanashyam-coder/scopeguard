@@ -253,7 +253,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-height: 480px;
+  height: 540px;
+  box-sizing: border-box;
 }
 
 .panel-header {
@@ -293,6 +294,10 @@ body {
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
   padding: 14px;
+  min-height: 84px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .prompt-text {
@@ -357,8 +362,30 @@ body {
   flex-direction: column;
   gap: 12px;
   overflow-y: auto;
-  max-height: 480px;
-  padding-right: 4px;
+  flex: 1;
+  padding-right: 6px;
+}
+
+.hunks-stream::-webkit-scrollbar,
+.code-viewport::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.hunks-stream::-webkit-scrollbar-track,
+.code-viewport::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hunks-stream::-webkit-scrollbar-thumb,
+.code-viewport::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 99px;
+}
+
+.hunks-stream::-webkit-scrollbar-thumb:hover,
+.code-viewport::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .hunk-card {
