@@ -10,14 +10,28 @@ let activeScenario: Scenario = SCENARIOS[0];
 let activeHunks: DiffHunk[] = [];
 let activeInspectorTab: 'clean' | 'raw' = 'clean';
 
-// DOM Element References
+// View Containers
+const viewLaunchpad = document.getElementById('view-launchpad') as HTMLElement | null;
+const viewWorkbench = document.getElementById('view-workbench') as HTMLElement | null;
+
+// Launchpad Elements
+const scenarioCardsDeck = document.getElementById('scenario-cards-deck') as HTMLElement | null;
+const runSimulationBtn = document.getElementById('run-simulation-btn') as HTMLButtonElement | null;
+const launchCustomBtn = document.getElementById('launch-custom-btn') as HTMLButtonElement | null;
+
+// Workbench Header & Telemetry Elements
+const backToLaunchBtn = document.getElementById('back-to-launch-btn') as HTMLButtonElement | null;
+const currentScenarioTag = document.getElementById('current-scenario-tag') as HTMLElement | null;
+const currentScenarioName = document.getElementById('current-scenario-name') as HTMLElement | null;
+const scenarioDeck = document.getElementById('scenario-deck') as HTMLElement | null;
 const ringTrack = document.getElementById('ring-track') as SVGCircleElement | null;
 const ringScore = document.getElementById('concordance-val') as HTMLElement | null;
 const authCountEl = document.getElementById('authorized-count') as HTMLElement | null;
 const colCountEl = document.getElementById('collateral-count') as HTMLElement | null;
 const linesSavedEl = document.getElementById('lines-saved') as HTMLElement | null;
 const purgeAllBtn = document.getElementById('purge-all-btn') as HTMLButtonElement | null;
-const scenarioDeck = document.getElementById('scenario-deck') as HTMLElement | null;
+
+// Workbench Main Grid Elements
 const promptDisplay = document.getElementById('prompt-display') as HTMLElement | null;
 const fileBadge = document.getElementById('file-badge') as HTMLElement | null;
 const radarStatus = document.getElementById('radar-status') as HTMLElement | null;
@@ -27,11 +41,9 @@ const tabClean = document.getElementById('tab-clean') as HTMLButtonElement | nul
 const tabRaw = document.getElementById('tab-raw') as HTMLButtonElement | null;
 const copyCodeBtn = document.getElementById('copy-code-btn') as HTMLButtonElement | null;
 const downloadPatchBtn = document.getElementById('download-patch-btn') as HTMLButtonElement | null;
-const runAuditBtn = document.getElementById('run-audit-btn') as HTMLButtonElement | null;
 
-// Modal Elements
+// Custom Modal Elements
 const customModal = document.getElementById('custom-modal') as HTMLElement | null;
-const customScanBtn = document.getElementById('custom-scan-btn') as HTMLButtonElement | null;
 const closeModalBtn = document.getElementById('close-modal-btn') as HTMLButtonElement | null;
 const runCustomAuditBtn = document.getElementById('run-custom-audit-btn') as HTMLButtonElement | null;
 const customPromptInput = document.getElementById('custom-prompt') as HTMLInputElement | null;
@@ -39,7 +51,7 @@ const customBeforeInput = document.getElementById('custom-before') as HTMLTextAr
 const customAfterInput = document.getElementById('custom-after') as HTMLTextAreaElement | null;
 
 /**
- * Run deterministic analysis on the active scenario
+ * Run deterministic analysis on a scenario
  */
 function analyzeScenario(scenario: Scenario): DiffHunk[] {
   const rawHunks = computeLineDiff(scenario.beforeCode, scenario.aiCode);
@@ -140,7 +152,7 @@ function renderHunkCards() {
 
     card.className = `hunk-card ${statusClass}`;
 
-    // Diff preview lines (up to 8 lines)
+    // Diff preview lines
     const diffLines: string[] = [];
     hunk.deletedLines.forEach(l => diffLines.push(`<div class="diff-del">- ${escapeHtml(l)}</div>`));
     hunk.addedLines.forEach(l => diffLines.push(`<div class="diff-add">+ ${escapeHtml(l)}</div>`));
@@ -184,107 +196,41 @@ function escapeHtml(str: string): string {
 }
 
 /**
- * Execute simulation scanning animation and audit
+ * Render the 3 Scenario Selection Cards on Launchpad
  */
-function executeAuditAnimation() {
-  if (!hunksStream) return;
+function renderLaunchpadCards() {
+  if (!scenarioCardsDeck) return;
+  scenarioCardsDeck.innerHTML = '';
 
-  if (runAuditBtn) {
-    runAuditBtn.innerHTML = '<span class="btn-pulse-dot"></span><span>SCANNING DIFF...</span>';
-    runAuditBtn.style.opacity = '0.7';
-    runAuditBtn.style.pointerEvents = 'none';
-  }
+  const dangerLabels: Record<string, string> = {
+    'scenario-css': '⚠️ Silently broke 3-column responsive grid',
+    'scenario-api': '🚨 Erased try/catch block & timeout retries',
+    'scenario-auth': '⚠️ Injected unverified telemetry endpoints'
+  };
 
-  // Show scanning visual in radar
-  hunksStream.innerHTML = `
-    <div class="scanning-card">
-      <div class="scan-radar-ring"></div>
-      <div class="scanning-title">INTERCEPTING AI CODE DIFF...</div>
-      <div class="scanning-sub">Parsing AST syntax trees & verifying scope invariants</div>
-    </div>
-  `;
+  SCENARIOS.forEach((sc) => {
+    const card = document.createElement('div');
+    card.className = `scenario-select-card ${sc.id === activeScenario.id ? 'active' : ''}`;
+    card.innerHTML = `
+      <div class="card-tag">${escapeHtml(sc.tag.toUpperCase())}</div>
+      <div class="card-title">${escapeHtml(sc.title)}</div>
+      <div class="card-prompt-box">"${escapeHtml(sc.prompt)}"</div>
+      <div class="card-danger">${dangerLabels[sc.id] || '⚠️ Collateral edits detected'}</div>
+    `;
 
-  if (radarStatus) radarStatus.textContent = 'SCANNING AST TOKENS...';
+    card.addEventListener('click', () => {
+      activeScenario = sc;
+      renderLaunchpadCards();
+    });
 
-  setTimeout(() => {
-    activeHunks = analyzeScenario(activeScenario);
-    updateTelemetry();
-    renderHunkCards();
-    activeInspectorTab = 'clean';
-    updateInspector();
-
-    if (runAuditBtn) {
-      runAuditBtn.innerHTML = '<span class="btn-pulse-dot"></span><span>⚡ RE-RUN AUDIT</span>';
-      runAuditBtn.style.opacity = '1';
-      runAuditBtn.style.pointerEvents = 'auto';
-    }
-  }, 450);
+    scenarioCardsDeck.appendChild(card);
+  });
 }
 
 /**
- * Load a scenario into the workbench
+ * Render quick pills inside Workbench header
  */
-function loadScenario(scenario: Scenario, autoAudit = false) {
-  activeScenario = scenario;
-
-  if (promptDisplay) promptDisplay.textContent = `"${scenario.prompt}"`;
-  if (fileBadge) fileBadge.textContent = scenario.filename;
-
-  updateScenarioPills();
-
-  if (autoAudit) {
-    executeAuditAnimation();
-  } else {
-    // Render Standby Simulation state
-    activeHunks = [];
-    if (radarStatus) radarStatus.textContent = 'AWAITING AUDIT';
-    if (ringScore) ringScore.textContent = 'STANDBY';
-    if (authCountEl) authCountEl.textContent = '0';
-    if (colCountEl) colCountEl.textContent = '0';
-    if (linesSavedEl) linesSavedEl.textContent = '0';
-    if (ringTrack) {
-      ringTrack.style.strokeDashoffset = '263.89';
-      ringTrack.classList.remove('warning');
-    }
-
-    if (runAuditBtn) {
-      runAuditBtn.innerHTML = '<span class="btn-pulse-dot"></span><span>⚡ RUN FIREWALL AUDIT</span>';
-      runAuditBtn.style.opacity = '1';
-      runAuditBtn.style.pointerEvents = 'auto';
-    }
-
-    if (codeDisplay) {
-      codeDisplay.textContent = scenario.aiCode;
-      if (tabRaw) tabRaw.classList.add('active');
-      if (tabClean) tabClean.classList.remove('active');
-    }
-
-    if (hunksStream) {
-      hunksStream.innerHTML = `
-        <div class="standby-card">
-          <div class="standby-icon">🛡️</div>
-          <div class="standby-title">AI CODE READY FOR INSPECTION</div>
-          <div class="standby-desc">Click <b>RUN FIREWALL AUDIT</b> to intercept incoming AI modifications and enforce AST scope boundaries.</div>
-          <button class="standby-btn" id="standby-audit-btn">⚡ INTERCEPT & SCAN DIFF</button>
-        </div>
-      `;
-
-      const standbyBtn = document.getElementById('standby-audit-btn') as HTMLButtonElement | null;
-      if (standbyBtn) {
-        standbyBtn.addEventListener('click', () => executeAuditAnimation());
-      }
-    }
-  }
-}
-
-if (runAuditBtn) {
-  runAuditBtn.addEventListener('click', () => executeAuditAnimation());
-}
-
-/**
- * Render Scenario Selector Deck
- */
-function renderScenarioDeck() {
+function renderWorkbenchPills() {
   if (!scenarioDeck) return;
   scenarioDeck.innerHTML = '';
 
@@ -293,28 +239,44 @@ function renderScenarioDeck() {
     pill.className = `scenario-pill ${sc.id === activeScenario.id ? 'active' : ''}`;
     pill.textContent = sc.tag;
     pill.title = sc.title;
-    pill.addEventListener('click', () => loadScenario(sc));
+    pill.addEventListener('click', () => {
+      activeScenario = sc;
+      openWorkbench();
+    });
     scenarioDeck.appendChild(pill);
   });
 }
 
-function updateScenarioPills() {
-  if (!scenarioDeck) return;
-  const pills = scenarioDeck.querySelectorAll('.scenario-pill');
-  SCENARIOS.forEach((sc, idx) => {
-    if (pills[idx]) {
-      if (sc.id === activeScenario.id) {
-        pills[idx].classList.add('active');
-      } else {
-        pills[idx].classList.remove('active');
-      }
-    }
-  });
+/**
+ * Open Workbench and run the surgical analysis
+ */
+function openWorkbench() {
+  if (viewLaunchpad) viewLaunchpad.style.display = 'none';
+  if (viewWorkbench) viewWorkbench.style.display = 'flex';
+
+  if (currentScenarioTag) currentScenarioTag.textContent = activeScenario.tag.toUpperCase();
+  if (currentScenarioName) currentScenarioName.textContent = activeScenario.title;
+  if (promptDisplay) promptDisplay.textContent = `"${activeScenario.prompt}"`;
+  if (fileBadge) fileBadge.textContent = activeScenario.filename;
+
+  activeHunks = analyzeScenario(activeScenario);
+  renderWorkbenchPills();
+  updateTelemetry();
+  renderHunkCards();
+  activeInspectorTab = 'clean';
+  updateInspector();
 }
 
 /**
- * Master Purge: Auto-reject all collateral/invariant hunks, keep authorized
+ * Return to Launchpad
  */
+function openLaunchpad() {
+  if (viewWorkbench) viewWorkbench.style.display = 'none';
+  if (viewLaunchpad) viewLaunchpad.style.display = 'flex';
+  renderLaunchpadCards();
+}
+
+// Master Purge: Auto-reject all collateral/invariant hunks, keep authorized
 if (purgeAllBtn) {
   purgeAllBtn.addEventListener('click', () => {
     activeHunks.forEach(h => {
@@ -330,9 +292,7 @@ if (purgeAllBtn) {
   });
 }
 
-/**
- * Inspector Tab Controls
- */
+// Inspector Tab Controls
 if (tabClean) {
   tabClean.addEventListener('click', () => {
     activeInspectorTab = 'clean';
@@ -347,9 +307,7 @@ if (tabRaw) {
   });
 }
 
-/**
- * Copy Clean Code
- */
+// Copy Clean Code
 if (copyCodeBtn) {
   copyCodeBtn.addEventListener('click', async () => {
     const cleanCode = spliceSource(activeScenario.beforeCode, activeHunks);
@@ -362,9 +320,7 @@ if (copyCodeBtn) {
   });
 }
 
-/**
- * Download Unified Diff .patch File
- */
+// Download Unified Diff .patch File
 if (downloadPatchBtn) {
   downloadPatchBtn.addEventListener('click', () => {
     const filename = activeScenario.filename || 'change.patch';
@@ -393,11 +349,21 @@ if (downloadPatchBtn) {
   });
 }
 
-/**
- * Custom Code Audit Modal Handlers
- */
-if (customScanBtn && customModal) {
-  customScanBtn.addEventListener('click', () => {
+// Launchpad Event Listeners
+if (runSimulationBtn) {
+  runSimulationBtn.addEventListener('click', () => {
+    openWorkbench();
+  });
+}
+
+if (backToLaunchBtn) {
+  backToLaunchBtn.addEventListener('click', () => {
+    openLaunchpad();
+  });
+}
+
+if (launchCustomBtn && customModal) {
+  launchCustomBtn.addEventListener('click', () => {
     customModal.classList.add('open');
   });
 }
@@ -430,10 +396,10 @@ if (runCustomAuditBtn && customModal) {
     };
 
     customModal.classList.remove('open');
-    loadScenario(customScenario, true);
+    activeScenario = customScenario;
+    openWorkbench();
   });
 }
 
 // Initial Initialization
-renderScenarioDeck();
-loadScenario(SCENARIOS[0]);
+renderLaunchpadCards();

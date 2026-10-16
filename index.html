@@ -7,16 +7,56 @@
   <link rel="stylesheet" href="./src/style.css">
 </head>
 <body>
-  <div id="workbench">
-    <!-- Top Telemetry Rail: Logo, Concordance Ring, Metric Readouts, Scenario Selector -->
-    <header class="telemetry-rail">
+
+  <!-- VIEW 1: SLEEK MINIMAL LAUNCHPAD (ZERO OVERWHELM) -->
+  <div id="view-launchpad" class="launchpad-chassis">
+    <header class="launch-header">
       <div class="brand">
         <span class="status-dot"></span>
         <span class="brand-title">SCOPEGUARD</span>
         <span class="version-tag">AI CODE FIREWALL</span>
       </div>
+      <button class="custom-trigger-link" id="launch-custom-btn">
+        <span>✏️</span> Paste Custom Diff
+      </button>
+    </header>
 
-      <!-- Center Concordance Ring Meter -->
+    <div class="hero-block">
+      <div class="hero-badge">DETERMINISTIC SCOPE ENFORCEMENT</div>
+      <h1 class="hero-title">Catch silent AI regressions before they break production.</h1>
+      <p class="hero-sub">AI coding agents produce rapid code, but introduce silent collateral damage: erased error guards, corrupted CSS layouts, and unrequested ghost dependencies. Select a scenario to simulate the firewall in action.</p>
+    </div>
+
+    <!-- 3 Scenario Selection Cards -->
+    <div class="scenario-cards-deck" id="scenario-cards-deck">
+      <!-- Rendered dynamically -->
+    </div>
+
+    <!-- Primary Simulation CTA -->
+    <div class="launch-cta-wrap">
+      <button class="launch-btn" id="run-simulation-btn">
+        <span class="pulse-dot"></span>
+        <span>RUN FIREWALL SIMULATION</span>
+        <span class="cta-arrow">→</span>
+      </button>
+      <div class="cta-hint">Instant Myers AST line differ & intent classification (0ms latency, zero API keys)</div>
+    </div>
+  </div>
+
+
+  <!-- VIEW 2: SURGICAL RESULTS WORKBENCH (WHERE THE MAGIC HAPPENS) -->
+  <div id="view-workbench" class="workbench-chassis" style="display: none;">
+    <!-- Top Telemetry Rail -->
+    <header class="telemetry-rail">
+      <div class="rail-left">
+        <button class="back-btn" id="back-to-launch-btn">← Scenarios</button>
+        <div class="scenario-context">
+          <span class="scenario-tag" id="current-scenario-tag">API VULNERABILITY</span>
+          <span class="scenario-name" id="current-scenario-name">Silent Error Handler Deletion</span>
+        </div>
+      </div>
+
+      <!-- Center Concordance Pod -->
       <div class="concordance-pod">
         <div class="ring-wrapper">
           <svg class="concordance-ring" viewBox="0 0 100 100">
@@ -49,56 +89,20 @@
         </button>
       </div>
 
-      <!-- Right Scenario Selector -->
+      <!-- Quick Switcher Deck -->
       <div class="scenario-deck" id="scenario-deck"></div>
     </header>
 
-    <!-- Main Surgical 3-Pane Grid -->
-    <main class="workbench-grid">
-      <!-- Left Column: User Intent & Guardrail Card -->
-      <aside class="panel intent-panel">
-        <div class="panel-header">
-          <span>USER INTENT & SCOPE BOUNDARY</span>
-          <span class="micro-badge" id="file-badge">styles.css</span>
-        </div>
-        <div class="intent-card">
-          <label class="field-label">DEVELOPER PROMPT (WHAT WAS ASKED)</label>
-          <div class="prompt-text" id="prompt-display">Loading scenario...</div>
-        </div>
-
-        <button class="audit-trigger-btn" id="run-audit-btn">
-          <span class="btn-pulse-dot"></span>
-          <span>⚡ RUN FIREWALL AUDIT</span>
-        </button>
-
-        <div class="guardrail-section">
-          <label class="field-label">ACTIVE SCOPE FIREWALL GUARDS</label>
-          <div class="guard-pill active">
-            <span class="guard-icon">🛡️</span>
-            <span>Prevent Unrequested Layout Mutations</span>
-          </div>
-          <div class="guard-pill active">
-            <span class="guard-icon">🔒</span>
-            <span>Block Safety & Error Handler Deletions</span>
-          </div>
-          <div class="guard-pill active">
-            <span class="guard-icon">⚠️</span>
-            <span>Flag Third-Party Ghost Dependencies</span>
-          </div>
-        </div>
-
-        <div class="custom-trigger-box">
-          <button class="custom-btn" id="custom-scan-btn">
-            <span>✏️</span> Paste Custom Code / Prompt
-          </button>
-        </div>
-      </aside>
-
-      <!-- Center Column: Silent Regression Radar (Hunk Cards) -->
+    <!-- 2-Pane Clean Grid: Left = Silent Regression Radar; Right = Clean Spliced Inspector -->
+    <main class="workbench-grid-clean">
+      <!-- Left Column: Silent Regression Radar -->
       <section class="panel radar-panel">
         <div class="panel-header">
-          <span>SILENT REGRESSION RADAR</span>
-          <span class="radar-status" id="radar-status">3 HUNKS DETECTED</span>
+          <div class="header-prompt-summary">
+            <span class="prompt-badge">ASKED:</span>
+            <span class="prompt-preview" id="prompt-display">Loading...</span>
+          </div>
+          <span class="radar-status" id="radar-status">2 HUNKS DETECTED</span>
         </div>
         <div class="hunks-stream" id="hunks-stream">
           <!-- Rendered dynamically -->
@@ -113,6 +117,7 @@
             <button class="tab-btn" id="tab-raw">RAW AI CODE</button>
           </div>
           <div class="action-group">
+            <span class="micro-badge" id="file-badge">styles.css</span>
             <button class="action-btn" id="copy-code-btn">Copy Clean</button>
             <button class="action-btn primary" id="download-patch-btn">Download .patch</button>
           </div>
@@ -123,6 +128,7 @@
       </section>
     </main>
   </div>
+
 
   <!-- Custom Code Modal -->
   <div class="modal-backdrop" id="custom-modal">
