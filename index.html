@@ -8,80 +8,36 @@
 </head>
 <body>
 
-  <!-- VIEW 1: PRO-GRADE FIREWALL COMMAND DECK -->
-  <div id="view-launchpad" class="deck-container">
-    <!-- Top System Header -->
-    <header class="deck-header">
-      <div class="deck-brand">
-        <span class="status-pulse"></span>
-        <span class="brand-name">SCOPEGUARD</span>
-        <span class="brand-divider">/</span>
-        <span class="engine-tag">DETERMINISTIC AST FIREWALL</span>
+  <!-- VIEW 1: HERO + 3 BENTO BOXES -->
+  <div id="view-launchpad" class="bento-launch-view">
+    <!-- Top Minimal Navigation -->
+    <header class="bento-top-nav">
+      <div class="bento-brand">
+        <span class="status-dot"></span>
+        <span class="brand-text">SCOPEGUARD</span>
       </div>
-      <div class="header-right">
-        <span class="system-status">● SYSTEM ARMED</span>
-        <button class="custom-audit-btn" id="launch-custom-btn">
-          <span>+ Custom Code Audit</span>
-        </button>
-      </div>
+      <button class="bento-custom-btn" id="launch-custom-btn">
+        <span>✏️</span> Paste Custom Diff
+      </button>
     </header>
 
-    <!-- Hero Title Strip -->
-    <div class="deck-hero">
-      <div class="hero-category">COGNITIVE DEBT DEFENSE STATION</div>
-      <h1 class="deck-title">Stop silent AI regressions before they enter production.</h1>
-      <p class="deck-subtitle">Select an intercept vector to observe how ScopeGuard's deterministic AST firewall catches unrequested layout breaks, deleted error handlers, and ghost dependencies.</p>
+    <!-- Oversized Hero Section -->
+    <section class="bento-hero">
+      <h1 class="hero-oversized-title">Zero collateral AI edits.</h1>
+      <p class="hero-single-subtitle">Select an AI mutation scenario to simulate deterministic firewall isolation and surgical repair.</p>
+    </section>
+
+    <!-- 3 Bento Boxes Grid -->
+    <div class="bento-grid" id="scenario-selector-dock">
+      <!-- 3 Bento boxes rendered dynamically -->
     </div>
 
-    <!-- 2-Column Command Station: Left = Intercept Vectors; Right = Live Target HUD -->
-    <div class="command-deck-grid">
-      <!-- Left Column: 3 Intercept Vectors -->
-      <div class="vector-list" id="scenario-selector-dock">
-        <!-- Rendered dynamically -->
-      </div>
-
-      <!-- Right Column: Live Target HUD & Engagement Trigger -->
-      <div class="target-hud-panel">
-        <div class="hud-header">
-          <span class="hud-label">INTERCEPT TELEMETRY</span>
-          <span class="hud-badge" id="hud-sev-badge">SEV-1 INVARIANT</span>
-        </div>
-
-        <div class="hud-body">
-          <div class="hud-field">
-            <span class="hud-field-name">TARGET RESOURCE</span>
-            <div class="hud-resource-row">
-              <span class="file-icon">📄</span>
-              <span class="hud-filename" id="hud-target-file">checkout.ts</span>
-              <span class="hud-scope" id="hud-target-symbol">processOrder()</span>
-            </div>
-          </div>
-
-          <div class="hud-field">
-            <span class="hud-field-name">DEVELOPER PROMPT VECTOR</span>
-            <div class="hud-prompt-box" id="hud-prompt-display">
-              "Format order total currency to 2 decimal places in checkout."
-            </div>
-          </div>
-
-          <div class="hud-field">
-            <span class="hud-field-name">DETECTED REGRESSION HAZARD</span>
-            <div class="hud-threat-box" id="hud-threat-display">
-              <span class="threat-dot"></span>
-              <span id="hud-threat-text">AI silently erased try/catch safety wrapper and timeout retry logic.</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="hud-footer">
-          <button class="engage-firewall-btn" id="run-simulation-btn">
-            <span class="btn-flare"></span>
-            <span>ENGAGE FIREWALL & INSPECT</span>
-            <span class="engage-arrow">→</span>
-          </button>
-          <div class="hud-hint">Deterministic Myers AST Diff • Zero API Keys • Sub-millisecond</div>
-        </div>
-      </div>
+    <!-- Run Simulation CTA -->
+    <div class="bento-cta-row">
+      <button class="bento-run-btn" id="run-simulation-btn">
+        <span>Run Simulation</span>
+        <span class="arrow-icon">→</span>
+      </button>
     </div>
   </div>
 
