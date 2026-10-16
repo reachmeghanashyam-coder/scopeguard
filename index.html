@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- VIEW 1: HERO + 3 BENTO BOXES -->
+  <!-- VIEW 1: HERO + GROUNDED APPLE CHASSIS -->
   <div id="view-launchpad" class="bento-launch-view">
     <!-- Top Minimal Navigation -->
     <header class="bento-top-nav">
@@ -16,9 +16,6 @@
         <span class="status-dot"></span>
         <span class="brand-text">SCOPEGUARD</span>
       </div>
-      <button class="bento-custom-btn" id="launch-custom-btn">
-        <span>✏️</span> Paste Custom Diff
-      </button>
     </header>
 
     <!-- Oversized Hero Section -->
@@ -28,17 +25,25 @@
       <p class="hero-single-subtitle">Select an AI mutation scenario to simulate deterministic firewall isolation and surgical repair.</p>
     </section>
 
-    <!-- 3 Bento Boxes Grid -->
-    <div class="bento-grid" id="scenario-selector-dock">
-      <!-- 3 Bento boxes rendered dynamically -->
-    </div>
+    <!-- Grounded Apple Glass Chassis Stage -->
+    <div class="bento-stage-chassis">
+      <div class="stage-header">
+        <span class="stage-label">Select Simulation Target</span>
+        <span class="stage-hint">Click a card to stage the firewall</span>
+      </div>
 
-    <!-- Run Simulation CTA -->
-    <div class="bento-cta-row">
-      <button class="bento-run-btn" id="run-simulation-btn">
-        <span>Run Simulation</span>
-        <span class="arrow-icon">→</span>
-      </button>
+      <!-- 3 Bento Boxes Grid -->
+      <div class="bento-grid" id="scenario-selector-dock">
+        <!-- 3 Bento boxes rendered dynamically -->
+      </div>
+
+      <!-- Run Simulation CTA -->
+      <div class="bento-cta-row">
+        <button class="bento-run-btn" id="run-simulation-btn">
+          <span>Run Simulation</span>
+          <span class="arrow-icon">→</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -60,7 +65,12 @@
         <span class="crumb-title" id="current-scenario-name">Silent Error Handler Deletion</span>
       </div>
 
-      <div class="scenario-deck" id="scenario-deck"></div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="scenario-deck" id="scenario-deck"></div>
+        <button class="nav-back-pill" id="launch-custom-btn" style="border-color:rgba(255,255,255,0.15)">
+          <span>✏️</span> Custom Diff
+        </button>
+      </div>
     </nav>
 
     <!-- Master Workbench Chassis -->

@@ -58,7 +58,7 @@ body {
 /* Minimal Top Nav */
 .bento-top-nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 0 4px;
 }
@@ -67,10 +67,10 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 14px;
+  padding: 6px 16px;
   border-radius: 99px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .status-dot {
@@ -88,80 +88,50 @@ body {
   color: #FFFFFF;
 }
 
-.bento-custom-btn {
-  background: rgba(255, 255, 255, 0.03);
+/* Grounded Apple Glass Stage Chassis */
+.bento-stage-chassis {
+  background: rgba(13, 16, 24, 0.65);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-muted);
-  font-size: 12.5px;
-  font-weight: 600;
-  padding: 8px 18px;
-  border-radius: 99px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.bento-custom-btn:hover {
-  color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.18);
-  transform: translateY(-1px);
-}
-
-/* Oversized Hero */
-.bento-hero {
+  border-radius: 28px;
+  padding: 32px 32px 36px 32px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 16px;
-  padding: 24px 0 8px 0;
+  gap: 24px;
+  box-shadow: 
+    0 32px 80px -20px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+  position: relative;
 }
 
-.hero-pill-badge {
-  display: inline-flex;
+.stage-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  padding: 5px 14px;
-  border-radius: 99px;
-  background: rgba(0, 229, 255, 0.06);
-  border: 1px solid rgba(0, 229, 255, 0.22);
-  color: var(--cyan);
-  font-size: 11px;
+  padding: 0 4px 4px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 16px;
+}
+
+.stage-label {
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 4px;
+  color: #E5E5EA;
 }
 
-.hero-oversized-title {
-  font-size: 72px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1.02;
-  background: linear-gradient(180deg, #FFFFFF 20%, #8E8E93 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  max-width: 900px;
-}
-
-.hero-single-subtitle {
-  font-size: 18px;
+.stage-hint {
+  font-size: 12px;
+  color: #636366;
   font-weight: 400;
-  color: #98989F;
-  max-width: 640px;
-  line-height: 1.5;
-  letter-spacing: -0.01em;
 }
 
 @media (max-width: 768px) {
-  .hero-oversized-title {
-    font-size: 42px;
-  }
-  .hero-single-subtitle {
-    font-size: 15px;
+  .bento-stage-chassis {
+    padding: 20px 16px;
   }
 }
 
@@ -169,7 +139,7 @@ body {
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 20px;
   width: 100%;
 }
 
