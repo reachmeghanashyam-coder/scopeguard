@@ -14,10 +14,15 @@ let activeInspectorTab: 'clean' | 'raw' = 'clean';
 const viewLaunchpad = document.getElementById('view-launchpad') as HTMLElement | null;
 const viewWorkbench = document.getElementById('view-workbench') as HTMLElement | null;
 
-// Stage 1 Elements (Minimal Launchpad)
+// Stage 1 Elements (Command Deck & HUD)
 const scenarioSelectorDock = document.getElementById('scenario-selector-dock') as HTMLElement | null;
 const runSimulationBtn = document.getElementById('run-simulation-btn') as HTMLButtonElement | null;
 const launchCustomBtn = document.getElementById('launch-custom-btn') as HTMLButtonElement | null;
+const hudSevBadge = document.getElementById('hud-sev-badge') as HTMLElement | null;
+const hudTargetFile = document.getElementById('hud-target-file') as HTMLElement | null;
+const hudTargetSymbol = document.getElementById('hud-target-symbol') as HTMLElement | null;
+const hudPromptDisplay = document.getElementById('hud-prompt-display') as HTMLElement | null;
+const hudThreatText = document.getElementById('hud-threat-text') as HTMLElement | null;
 
 // Workbench Header & Telemetry Elements
 const backToLaunchBtn = document.getElementById('back-to-launch-btn') as HTMLButtonElement | null;
@@ -194,43 +199,84 @@ function escapeHtml(str: string): string {
     .replace(/"/g, '&quot;');
 }
 
+const SCENARIO_META: Record<string, { sev: string; badgeClass: string; fileRange: string; symbol: string; title: string; hazard: string }> = {
+  'scenario-api': {
+    sev: 'SEV-1 INVARIANT BREACH',
+    badgeClass: 'badge-sev1',
+    fileRange: 'checkout.ts : L52-65',
+    symbol: 'processOrder()',
+    title: 'Silent Error Handler & Timeout Strip',
+    hazard: 'AI silently erased try/catch safety wrapper and timeout retry logic.'
+  },
+  'scenario-css': {
+    sev: 'SEV-2 COLLATERAL MUTATION',
+    badgeClass: 'badge-sev2',
+    fileRange: 'styles.css : L18-23',
+    symbol: '.dashboard-grid',
+    title: 'Responsive Dashboard Grid Sabotage',
+    hazard: 'AI altered working 3-column layout down to 2 columns, breaking responsive layout.'
+  },
+  'scenario-auth': {
+    sev: 'SEV-3 SCOPE CREEP',
+    badgeClass: 'badge-sev3',
+    fileRange: 'coupon.ts : L81-91',
+    symbol: 'validateCoupon()',
+    title: 'Unrequested Telemetry & Ghost Import',
+    hazard: 'AI added unrequested axios import and unverified telemetry tracking endpoints.'
+  }
+};
+
+function updateHUD() {
+  const meta = SCENARIO_META[activeScenario.id] || {
+    sev: 'CUSTOM CODE AUDIT',
+    badgeClass: 'badge-sev3',
+    fileRange: activeScenario.filename,
+    symbol: 'Global Scope',
+    title: activeScenario.title,
+    hazard: 'Custom user diff pending deterministic scope audit.'
+  };
+
+  if (hudSevBadge) {
+    hudSevBadge.textContent = meta.sev;
+    hudSevBadge.className = `hud-badge ${meta.badgeClass}`;
+  }
+  if (hudTargetFile) hudTargetFile.textContent = activeScenario.filename;
+  if (hudTargetSymbol) hudTargetSymbol.textContent = meta.symbol;
+  if (hudPromptDisplay) hudPromptDisplay.textContent = `"${activeScenario.prompt}"`;
+  if (hudThreatText) hudThreatText.textContent = meta.hazard;
+}
+
 /**
- * Render the Clean Scenario Pills on Minimal Launchpad
+ * Render Intercept Vector Cards in Command Deck
  */
 function renderStage() {
   if (!scenarioSelectorDock) return;
   scenarioSelectorDock.innerHTML = '';
 
-  const icons: Record<string, string> = {
-    'scenario-css': '🎨',
-    'scenario-api': '⚡',
-    'scenario-auth': '🛡️'
-  };
-
-  const simpleNames: Record<string, string> = {
-    'scenario-css': 'CSS Layout Break',
-    'scenario-api': 'Silent API Error Deletion',
-    'scenario-auth': 'Ghost Code Injection'
-  };
-
   SCENARIOS.forEach((sc) => {
-    const btn = document.createElement('button');
-    btn.className = `scenario-pill-btn ${sc.id === activeScenario.id ? 'active' : ''}`;
-    btn.innerHTML = `
-      <div class="pill-left">
-        <span class="pill-icon">${icons[sc.id] || '⚡'}</span>
-        <span class="pill-title">${simpleNames[sc.id] || sc.title}</span>
+    const meta = SCENARIO_META[sc.id];
+    const card = document.createElement('div');
+    card.className = `vector-card ${sc.id === activeScenario.id ? 'active' : ''}`;
+    card.innerHTML = `
+      <div class="vector-top">
+        <span class="vector-badge ${meta?.badgeClass || 'badge-sev2'}">${meta?.sev || 'INTERCEPT'}</span>
+        <span class="vector-file">${meta?.fileRange || sc.filename}</span>
       </div>
-      <span class="pill-tag">${sc.filename}</span>
+      <div class="vector-title">${escapeHtml(meta?.title || sc.title)}</div>
+      <div class="vector-prompt">"${escapeHtml(sc.prompt)}"</div>
+      <div class="vector-hazard">⚠️ ${escapeHtml(meta?.hazard || '')}</div>
     `;
 
-    btn.addEventListener('click', () => {
+    card.addEventListener('click', () => {
       activeScenario = sc;
       renderStage();
+      updateHUD();
     });
 
-    scenarioSelectorDock.appendChild(btn);
+    scenarioSelectorDock.appendChild(card);
   });
+
+  updateHUD();
 }
 
 /**

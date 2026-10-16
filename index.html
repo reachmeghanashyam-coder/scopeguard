@@ -8,32 +8,80 @@
 </head>
 <body>
 
-  <!-- VIEW 1: ULTRA-MINIMAL SLEEK LAUNCHPAD -->
-  <div id="view-launchpad" class="minimal-stage">
-    <div class="minimal-card">
-      <div class="brand-row">
-        <span class="status-dot"></span>
-        <span class="brand-title">SCOPEGUARD</span>
-        <span class="brand-badge">AI CODE FIREWALL</span>
+  <!-- VIEW 1: PRO-GRADE FIREWALL COMMAND DECK -->
+  <div id="view-launchpad" class="deck-container">
+    <!-- Top System Header -->
+    <header class="deck-header">
+      <div class="deck-brand">
+        <span class="status-pulse"></span>
+        <span class="brand-name">SCOPEGUARD</span>
+        <span class="brand-divider">/</span>
+        <span class="engine-tag">DETERMINISTIC AST FIREWALL</span>
       </div>
+      <div class="header-right">
+        <span class="system-status">● SYSTEM ARMED</span>
+        <button class="custom-audit-btn" id="launch-custom-btn">
+          <span>+ Custom Code Audit</span>
+        </button>
+      </div>
+    </header>
 
-      <h1 class="minimal-title">Stop silent AI regressions.</h1>
-      <p class="minimal-sub">Catch collateral mutations, broken layouts, and stripped error handlers before they reach production.</p>
+    <!-- Hero Title Strip -->
+    <div class="deck-hero">
+      <div class="hero-category">COGNITIVE DEBT DEFENSE STATION</div>
+      <h1 class="deck-title">Stop silent AI regressions before they enter production.</h1>
+      <p class="deck-subtitle">Select an intercept vector to observe how ScopeGuard's deterministic AST firewall catches unrequested layout breaks, deleted error handlers, and ghost dependencies.</p>
+    </div>
 
-      <!-- 3 Clean Scenario Pills -->
-      <div class="scenario-pills" id="scenario-selector-dock">
+    <!-- 2-Column Command Station: Left = Intercept Vectors; Right = Live Target HUD -->
+    <div class="command-deck-grid">
+      <!-- Left Column: 3 Intercept Vectors -->
+      <div class="vector-list" id="scenario-selector-dock">
         <!-- Rendered dynamically -->
       </div>
 
-      <!-- Single Primary Action Button -->
-      <button class="minimal-run-btn" id="run-simulation-btn">
-        <span>Run Simulation</span>
-        <span class="cta-arrow">→</span>
-      </button>
+      <!-- Right Column: Live Target HUD & Engagement Trigger -->
+      <div class="target-hud-panel">
+        <div class="hud-header">
+          <span class="hud-label">INTERCEPT TELEMETRY</span>
+          <span class="hud-badge" id="hud-sev-badge">SEV-1 INVARIANT</span>
+        </div>
 
-      <button class="minimal-custom-link" id="launch-custom-btn">
-        or audit custom code
-      </button>
+        <div class="hud-body">
+          <div class="hud-field">
+            <span class="hud-field-name">TARGET RESOURCE</span>
+            <div class="hud-resource-row">
+              <span class="file-icon">📄</span>
+              <span class="hud-filename" id="hud-target-file">checkout.ts</span>
+              <span class="hud-scope" id="hud-target-symbol">processOrder()</span>
+            </div>
+          </div>
+
+          <div class="hud-field">
+            <span class="hud-field-name">DEVELOPER PROMPT VECTOR</span>
+            <div class="hud-prompt-box" id="hud-prompt-display">
+              "Format order total currency to 2 decimal places in checkout."
+            </div>
+          </div>
+
+          <div class="hud-field">
+            <span class="hud-field-name">DETECTED REGRESSION HAZARD</span>
+            <div class="hud-threat-box" id="hud-threat-display">
+              <span class="threat-dot"></span>
+              <span id="hud-threat-text">AI silently erased try/catch safety wrapper and timeout retry logic.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hud-footer">
+          <button class="engage-firewall-btn" id="run-simulation-btn">
+            <span class="btn-flare"></span>
+            <span>ENGAGE FIREWALL & INSPECT</span>
+            <span class="engage-arrow">→</span>
+          </button>
+          <div class="hud-hint">Deterministic Myers AST Diff • Zero API Keys • Sub-millisecond</div>
+        </div>
+      </div>
     </div>
   </div>
 
