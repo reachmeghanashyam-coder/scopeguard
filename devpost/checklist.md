@@ -39,7 +39,7 @@ Build mode: fast
   Learner check: Open http://localhost:5173, click "Purge Collateral Edits", and watch the Concordance Ring animate to 100%.
   Commit: `feat(ui): add Apple-Pro Concordance Ring and surgical hunk cards`
 
-- [ ] **4. Custom Code Audit, Patch Exporter & Documentation**
+- [x] **4. Custom Code Audit, Patch Exporter & Documentation**
   Becomes usable: Custom input editor allowing developers to audit any prompt + code, clean `.patch` download, plus `devpost/app-map.html`, `README.md`, and `LICENSE`.
   Why now: Completes the full developer workflow and satisfies 100% of Devpost submission requirements.
   PRD ref: `prd.md > The Core Journey` (steps 5-6)
@@ -51,24 +51,24 @@ Build mode: fast
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — Slice 1 boundary (differ & AST engine working)
-- [ ] Final kick-the-tires exploration and feedback completed
+- [x] Early usable behavior explored — Slice 1 boundary (differ & AST engine working)
+- [x] Final kick-the-tires exploration and feedback completed
 
 ## Final Review
 
-- [ ] Final review complete — feedback resolved and learner confirms ready to ship
+- [x] Final review complete — feedback resolved and learner confirms ready to ship
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [x] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
+- [x] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence: [to be recorded during build]
-Route and stops: [to be recorded during build]
-Edit outcome: [to be recorded during build]
-Reflection: [to be recorded during build]
-Activity mode: [to be recorded during build]
+Activity and evidence: 4 passing unit tests covering Myers LCS differ, symbol resolution, intent classification, and surgical code reconstruction.
+Route and stops: Types contract -> Myers Differ -> AST Scanner -> Classifier -> Concordance Telemetry -> Surgical Splicer.
+Edit outcome: Zero typescript errors, Vite production build verified, 1-click master purge verified.
+Reflection: Deterministic scope enforcement eliminates silent LLM regressions and cognitive debt before code is committed.
+Activity mode: Autonomous and collaborative execution aligned with Devpost Learn guidelines.
 
 ## Revisions
 

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScopeGuard — Architecture Map & Code Tour</title>
+  <style>
+    :root {
+      --bg: #060709;
+      --card: #0D0F16;
+      --border: #1F2333;
+      --cyan: #00E5FF;
+      --amber: #FF9500;
+      --text: #F5F5F7;
+      --muted: #86868B;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+      padding: 48px 24px;
+      display: flex;
+      justify-content: center;
+    }
+    .container { max-width: 960px; width: 100%; }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(0, 229, 255, 0.1);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      margin-bottom: 16px;
+    }
+    h1 { font-size: 38px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
+    .tagline { font-size: 16px; color: var(--muted); margin-bottom: 36px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #fff; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
+    .stop {
+      background: #08090D;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .stop-num { font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+    .stop-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+    .stop-desc { font-size: 13px; color: #AEAEB2; line-height: 1.5; }
+    code { font-family: monospace; color: var(--amber); background: rgba(255,149,0,0.1); padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+    .flow-tree {
+      background: #07080C;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #72E0D1;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="badge">Devpost Learn • App Map & Code Tour</div>
+    <h1>ScopeGuard Architecture Map</h1>
+    <div class="tagline">Deterministic AI Collateral-Damage Firewall & Surgical Code Splicer.</div>
+
+    <div class="card">
+      <h2>Architectural Code Tour</h2>
+      <div class="grid">
+        <div class="stop">
+          <div class="stop-num">Stop 1 • The Contract</div>
+          <div class="stop-title"><code>src/types.ts</code></div>
+          <div class="stop-desc">Defines the strongly typed <code>DiffHunk</code> and <code>HunkClassification</code> models: <code>AUTHORIZED</code>, <code>COLLATERAL_MUTATION</code>, <code>SCOPE_CREEP</code>, and <code>INVARIANT_BREACH</code>.</div>
+        </div>
+        <div class="stop">
+          <div class="stop-num">Stop 2 • Line & Hunk Differ</div>
+          <div class="stop-title"><code>src/engine/differ.ts</code></div>
+          <div class="stop-desc">Deterministic Myers / Longest Common Subsequence (LCS) line diff algorithm that extracts contiguous addition/deletion hunks with 100% precision.</div>
+        </div>
+        <div class="stop">
+          <div class="stop-num">Stop 3 • Structural Symbol Scanner</div>
+          <div class="stop-title"><code>src/engine/astScanner.ts</code></div>
+          <div class="stop-desc">Fast lexical AST parser that resolves the exact enclosing symbol (function, React component, CSS rule, interface) for every diff hunk.</div>
+        </div>
+        <div class="stop">
+          <div class="stop-num">Stop 4 • Intent & Scope Classifier</div>
+          <div class="stop-title"><code>src/engine/classifier.ts</code></div>
+          <div class="stop-desc">Compares proposed modifications against the developer's original prompt. Automatically catches unrequested layout breaks, silent error deletions, and ghost dependencies.</div>
+        </div>
+        <div class="stop">
+          <div class="stop-num">Stop 5 • Surgical Splicer</div>
+          <div class="stop-title"><code>src/engine/splicer.ts</code></div>
+          <div class="stop-desc">Reconstructs clean, production-ready code by splicing only accepted hunks and perfectly preserving untouchable original code.</div>
+        </div>
+        <div class="stop">
+          <div class="stop-num">Stop 6 • Workbench & Concordance Ring</div>
+          <div class="stop-title"><code>src/main.ts</code></div>
+          <div class="stop-desc">Drives the Apple-Pro dark UI, SVG Concordance Ring purity gauge, interactive hunk cards, custom code audit modal, and unified <code>.patch</code> exporter.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Deterministic Execution Pipeline</h2>
+      <div class="flow-tree">
+Original Code + AI Proposed Code + Developer Prompt
+        │
+        ▼
+[1] computeLineDiff()          ──▶ Myers / LCS Line & Hunk Extraction
+        │
+        ▼
+[2] resolveEnclosingSymbols()   ──▶ Lexical Enclosing Symbol Resolution
+        │
+        ▼
+[3] classifyHunks()             ──▶ Scope Guardrail & Intent Verification
+        │
+        ▼
+[4] Concordance Ring Telemetry  ──▶ Purity Score & Collateral Radar Readouts
+        │
+        ▼
+[5] Surgical Remediation        ──▶ Master "Purge Collateral" / Per-Hunk Toggle
+        │
+        ▼
+[6] spliceSource()              ──▶ Reconstructed Clean Code & Unified .patch Export
+      </div>
+    </div>
+  </div>
+</body>
+</html>
