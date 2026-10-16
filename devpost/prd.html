@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScopeGuard — PRD Companion</title>
+  <style>
+    :root {
+      --bg: #07080B;
+      --card: #0F1118;
+      --border: #1B1E2B;
+      --cyan: #00E5FF;
+      --amber: #FF9500;
+      --red: #FF453A;
+      --text: #F5F5F7;
+      --muted: #86868B;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+      padding: 48px 24px;
+      display: flex;
+      justify-content: center;
+    }
+    .container { max-width: 900px; width: 100%; }
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(0, 229, 255, 0.1);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      margin-bottom: 16px;
+    }
+    h1 { font-size: 38px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 8px; }
+    .tagline { font-size: 16px; color: var(--muted); margin-bottom: 36px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .hunk-preview {
+      background: #090A0F;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 12px;
+      border-left: 4px solid var(--amber);
+    }
+    .hunk-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; display: flex; justify-content: space-between; }
+    .tag-amber { color: var(--amber); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .hunk-desc { font-size: 12.5px; color: #C7C7CC; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="badge">Step 3 • Product Requirements</div>
+    <h1>The Surgical Workbench</h1>
+    <div class="tagline">Inspecting & Splicing AI Code Mutations in Real Time</div>
+
+    <div class="card">
+      <h2>Silent Regression Radar Sample</h2>
+      <div class="hunk-preview">
+        <div class="hunk-title">
+          <span>Hunk #2 • .dashboard-grid (styles.css:42-48)</span>
+          <span class="tag-amber">🚨 Collateral Mutation</span>
+        </div>
+        <div class="hunk-desc">
+          AI modified grid columns from <code>repeat(3, 1fr)</code> to <code>repeat(2, 1fr)</code> without user request. Will cause desktop layout break on screens &gt; 1024px.
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
