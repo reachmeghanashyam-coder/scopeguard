@@ -55,7 +55,9 @@ const customAfterInput = document.getElementById('custom-after') as HTMLTextArea
 function analyzeScenario(scenario: Scenario): DiffHunk[] {
   const rawHunks = computeLineDiff(scenario.beforeCode, scenario.aiCode);
   const resolved = resolveEnclosingSymbols(scenario.aiCode, rawHunks);
-  return classifyHunks(scenario.prompt, resolved);
+  const classified = classifyHunks(scenario.prompt, resolved);
+  // Initially, all AI proposed changes are included (RAW state) so user can see the threat and purge it!
+  return classified.map(h => ({ ...h, accepted: true }));
 }
 
 /**
@@ -148,38 +150,65 @@ function renderHunkCards() {
       badgeText = 'SCOPE CREEP';
     }
 
-    card.className = `hunk-card ${statusClass}`;
+    const isCollateral = hunk.status !== 'AUTHORIZED';
+    const isPurged = isCollateral && !hunk.accepted;
+
+    // Visual card styling depending on purge state
+    let cardStateClass = statusClass;
+    if (isPurged) {
+      cardStateClass += ' hunk-purged';
+    } else if (isCollateral && hunk.accepted) {
+      cardStateClass += ' hunk-danger-active';
+    }
+
+    card.className = `hunk-card ${cardStateClass}`;
 
     // Diff preview lines
     const diffLines: string[] = [];
     hunk.deletedLines.forEach(l => diffLines.push(`<div class="diff-del">- ${escapeHtml(l)}</div>`));
     hunk.addedLines.forEach(l => diffLines.push(`<div class="diff-add">+ ${escapeHtml(l)}</div>`));
 
-    const toggleClass = hunk.accepted ? 'accepted' : 'rejected';
-    const toggleLabel = hunk.accepted ? 'KEEP (INCLUDED)' : 'PURGE (EXCLUDED)';
+    // Dynamic Action Label
+    let actionBtnHtml = '';
+    if (!isCollateral) {
+      actionBtnHtml = `<span class="auth-guarantee-pill">✓ SAFE (PRESERVED)</span>`;
+    } else if (isPurged) {
+      actionBtnHtml = `
+        <span class="purged-status-badge">🛡️ PURGED FROM CODE</span>
+        <button class="toggle-btn restore-btn" data-id="${hunk.id}">Undo Purge</button>
+      `;
+    } else {
+      actionBtnHtml = `
+        <span class="hazard-alert-pill">⚠️ ACTIVE THREAT</span>
+        <button class="toggle-btn purge-btn" data-id="${hunk.id}">Purge Edit ✕</button>
+      `;
+    }
 
     card.innerHTML = `
       <div class="hunk-top">
-        <span class="hunk-symbol">${escapeHtml(hunk.enclosingSymbol)}</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="hunk-symbol">${escapeHtml(hunk.enclosingSymbol)}</span>
+          ${isPurged ? '<span class="purged-tag">PURGED</span>' : ''}
+        </div>
         <span class="hunk-badge ${badgeClass}">${badgeText}</span>
       </div>
       <div class="hunk-impact">${escapeHtml(hunk.impactSummary)}</div>
-      <div class="hunk-diff-box">${diffLines.join('')}</div>
+      <div class="hunk-diff-box ${isPurged ? 'diff-purged-strikethrough' : ''}">${diffLines.join('')}</div>
       <div class="hunk-actions">
-        <button class="toggle-btn ${toggleClass}" data-id="${hunk.id}">
-          ${toggleLabel}
-        </button>
+        ${actionBtnHtml}
       </div>
     `;
 
     // Toggle button handler
-    const btn = card.querySelector('.toggle-btn') as HTMLButtonElement;
-    btn.addEventListener('click', () => {
-      hunk.accepted = !hunk.accepted;
-      updateTelemetry();
-      updateInspector();
-      renderHunkCards();
-    });
+    const btn = card.querySelector('.toggle-btn') as HTMLButtonElement | null;
+    if (btn) {
+      btn.addEventListener('click', () => {
+        hunk.accepted = !hunk.accepted;
+        updateTelemetry();
+        updateInspector();
+        renderHunkCards();
+      });
+    }
 
     hunksStream.appendChild(card);
   });
@@ -306,6 +335,17 @@ if (purgeAllBtn) {
         h.accepted = false;
       }
     });
+
+    // Visual button feedback
+    const origHtml = purgeAllBtn.innerHTML;
+    purgeAllBtn.innerHTML = '✓ COLLATERAL EDITS PURGED!';
+    purgeAllBtn.classList.add('purged-success');
+    
+    setTimeout(() => {
+      purgeAllBtn.innerHTML = origHtml;
+      purgeAllBtn.classList.remove('purged-success');
+    }, 2000);
+
     updateTelemetry();
     renderHunkCards();
     updateInspector();

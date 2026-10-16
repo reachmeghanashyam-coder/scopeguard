@@ -659,24 +659,34 @@ body {
 }
 
 .purge-master-btn {
-  background: rgba(255, 149, 0, 0.14);
-  border: 1px solid rgba(255, 149, 0, 0.45);
+  background: rgba(255, 149, 0, 0.16);
+  border: 1px solid rgba(255, 149, 0, 0.5);
   color: var(--amber);
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
-  padding: 10px 20px;
+  padding: 10px 22px;
   border-radius: 99px;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 16px rgba(255, 149, 0, 0.15);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 16px rgba(255, 149, 0, 0.18);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .purge-master-btn:hover {
   background: var(--amber);
   color: #050608;
-  box-shadow: 0 0 24px var(--amber-glow);
+  box-shadow: 0 0 28px var(--amber-glow);
   transform: translateY(-1px);
+}
+
+.purge-master-btn.purged-success {
+  background: #30D158 !important;
+  color: #000000 !important;
+  border-color: #30D158 !important;
+  box-shadow: 0 0 28px rgba(48, 209, 88, 0.6) !important;
 }
 
 /* Quick scenario pills in results bar */
@@ -908,6 +918,64 @@ body {
   gap: 8px;
 }
 
+.hunk-card.hunk-purged {
+  border-left: 3px solid #30D158 !important;
+  background: rgba(48, 209, 88, 0.04);
+  opacity: 0.85;
+}
+
+.hunk-card.hunk-danger-active {
+  border-left: 3px solid var(--amber) !important;
+  background: rgba(255, 149, 0, 0.05);
+}
+
+.purged-tag {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #30D158;
+  background: rgba(48, 209, 88, 0.12);
+  border: 1px solid rgba(48, 209, 88, 0.3);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.diff-purged-strikethrough .diff-del,
+.diff-purged-strikethrough .diff-add {
+  text-decoration: line-through;
+  opacity: 0.45;
+}
+
+.auth-guarantee-pill {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--cyan);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hazard-alert-pill {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--amber);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.purged-status-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #30D158;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .toggle-btn {
   font-size: 10px;
   font-weight: 700;
@@ -921,16 +989,26 @@ body {
   transition: all 0.15s;
 }
 
-.toggle-btn.accepted {
-  background: rgba(0, 229, 255, 0.14);
-  color: var(--cyan);
-  border-color: var(--cyan);
+.toggle-btn.purge-btn {
+  background: rgba(255, 149, 0, 0.14);
+  color: var(--amber);
+  border-color: rgba(255, 149, 0, 0.45);
 }
 
-.toggle-btn.rejected {
-  background: rgba(255, 69, 58, 0.14);
-  color: var(--red);
-  border-color: var(--red);
+.toggle-btn.purge-btn:hover {
+  background: var(--amber);
+  color: #000;
+}
+
+.toggle-btn.restore-btn {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  border-color: var(--border-subtle);
+}
+
+.toggle-btn.restore-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
 }
 
 /* Code Inspector Panel */
