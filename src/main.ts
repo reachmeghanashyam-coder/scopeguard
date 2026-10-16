@@ -18,6 +18,7 @@ const viewWorkbench = document.getElementById('view-workbench') as HTMLElement |
 const scenarioCardsDeck = document.getElementById('scenario-cards-deck') as HTMLElement | null;
 const runSimulationBtn = document.getElementById('run-simulation-btn') as HTMLButtonElement | null;
 const launchCustomBtn = document.getElementById('launch-custom-btn') as HTMLButtonElement | null;
+const commandTargetText = document.getElementById('command-target-text') as HTMLElement | null;
 
 // Workbench Header & Telemetry Elements
 const backToLaunchBtn = document.getElementById('back-to-launch-btn') as HTMLButtonElement | null;
@@ -202,17 +203,27 @@ function renderLaunchpadCards() {
   if (!scenarioCardsDeck) return;
   scenarioCardsDeck.innerHTML = '';
 
-  const dangerLabels: Record<string, string> = {
-    'scenario-css': '⚠️ Silently broke 3-column responsive grid',
-    'scenario-api': '🚨 Erased try/catch block & timeout retries',
-    'scenario-auth': '⚠️ Injected unverified telemetry endpoints'
+  const icons: Record<string, string> = {
+    'scenario-css': '🎨',
+    'scenario-api': '⚡',
+    'scenario-auth': '🛡️'
   };
 
-  SCENARIOS.forEach((sc) => {
+  const dangerLabels: Record<string, string> = {
+    'scenario-css': '💥 Silently rewrote 3-column responsive grid to 2',
+    'scenario-api': '🚨 Erased try/catch error handling & timeouts',
+    'scenario-auth': '⚠️ Injected unverified telemetry tracking'
+  };
+
+  SCENARIOS.forEach((sc, idx) => {
     const card = document.createElement('div');
     card.className = `scenario-select-card ${sc.id === activeScenario.id ? 'active' : ''}`;
     card.innerHTML = `
-      <div class="card-tag">${escapeHtml(sc.tag.toUpperCase())}</div>
+      <div class="card-top-row">
+        <div class="card-icon-orb">${icons[sc.id] || '⚡'}</div>
+        <div class="card-radio"></div>
+      </div>
+      <div class="card-tag">SCENARIO 0${idx + 1} • ${escapeHtml(sc.tag.toUpperCase())}</div>
       <div class="card-title">${escapeHtml(sc.title)}</div>
       <div class="card-prompt-box">"${escapeHtml(sc.prompt)}"</div>
       <div class="card-danger">${dangerLabels[sc.id] || '⚠️ Collateral edits detected'}</div>
@@ -220,11 +231,18 @@ function renderLaunchpadCards() {
 
     card.addEventListener('click', () => {
       activeScenario = sc;
+      if (commandTargetText) {
+        commandTargetText.textContent = `${sc.title} (${sc.filename})`;
+      }
       renderLaunchpadCards();
     });
 
     scenarioCardsDeck.appendChild(card);
   });
+
+  if (commandTargetText) {
+    commandTargetText.textContent = `${activeScenario.title} (${activeScenario.filename})`;
+  }
 }
 
 /**

@@ -8,8 +8,9 @@
 </head>
 <body>
 
-  <!-- VIEW 1: SLEEK MINIMAL LAUNCHPAD (ZERO OVERWHELM) -->
+  <!-- VIEW 1: SLEEK DESIGN-FIRST LAUNCHPAD -->
   <div id="view-launchpad" class="launchpad-chassis">
+    <!-- Top Brand Bar -->
     <header class="launch-header">
       <div class="brand">
         <span class="status-dot"></span>
@@ -21,112 +22,142 @@
       </button>
     </header>
 
+    <!-- Apple-Style Editorial Hero -->
     <div class="hero-block">
-      <div class="hero-badge">DETERMINISTIC SCOPE ENFORCEMENT</div>
-      <h1 class="hero-title">Catch silent AI regressions before they break production.</h1>
-      <p class="hero-sub">AI coding agents produce rapid code, but introduce silent collateral damage: erased error guards, corrupted CSS layouts, and unrequested ghost dependencies. Select a scenario to simulate the firewall in action.</p>
+      <div class="hero-pill">
+        <span class="hero-pill-dot"></span>
+        <span>AUTONOMOUS CODE BOUNDARY DEFENSE</span>
+      </div>
+      <h1 class="hero-title">
+        Clean intent in.<br>
+        <span class="hero-gradient">Zero collateral damage out.</span>
+      </h1>
+      <p class="hero-sub">
+        AI coding agents produce rapid code, but introduce silent collateral damage: erased error guards, corrupted CSS layouts, and unrequested ghost dependencies. Select a real-world scenario below to simulate the firewall in action.
+      </p>
     </div>
 
-    <!-- 3 Scenario Selection Cards -->
+    <!-- 3 Design-First Scenario Showcase Cards -->
     <div class="scenario-cards-deck" id="scenario-cards-deck">
       <!-- Rendered dynamically -->
     </div>
 
-    <!-- Primary Simulation CTA -->
-    <div class="launch-cta-wrap">
+    <!-- Integrated Command Bar CTA -->
+    <div class="command-bar">
+      <div class="command-info">
+        <span class="command-label">READY TO SIMULATE:</span>
+        <span class="command-target" id="command-target-text">The CSS Layout Sabotage (styles.css)</span>
+      </div>
       <button class="launch-btn" id="run-simulation-btn">
         <span class="pulse-dot"></span>
         <span>RUN FIREWALL SIMULATION</span>
         <span class="cta-arrow">→</span>
       </button>
-      <div class="cta-hint">Instant Myers AST line differ & intent classification (0ms latency, zero API keys)</div>
     </div>
   </div>
 
 
   <!-- VIEW 2: SURGICAL RESULTS WORKBENCH (WHERE THE MAGIC HAPPENS) -->
-  <div id="view-workbench" class="workbench-chassis" style="display: none;">
-    <!-- Top Telemetry Rail -->
-    <header class="telemetry-rail">
-      <div class="rail-left">
-        <button class="back-btn" id="back-to-launch-btn">← Scenarios</button>
-        <div class="scenario-context">
-          <span class="scenario-tag" id="current-scenario-tag">API VULNERABILITY</span>
-          <span class="scenario-name" id="current-scenario-name">Silent Error Handler Deletion</span>
-        </div>
+  <div id="view-workbench" class="workbench-wrapper" style="display: none;">
+    <!-- Dedicated Top Navigation Bar (OUTSIDE the workbench box) -->
+    <nav class="workbench-top-nav">
+      <button class="nav-back-pill" id="back-to-launch-btn">
+        <span class="back-arrow">←</span>
+        <span>Back to Scenarios</span>
+      </button>
+
+      <div class="nav-breadcrumbs">
+        <span class="crumb-brand">SCOPEGUARD</span>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-tag" id="current-scenario-tag">API VULNERABILITY</span>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-title" id="current-scenario-name">Silent Error Handler Deletion</span>
       </div>
 
-      <!-- Center Concordance Pod -->
-      <div class="concordance-pod">
-        <div class="ring-wrapper">
-          <svg class="concordance-ring" viewBox="0 0 100 100">
-            <circle class="ring-bg" cx="50" cy="50" r="42" />
-            <circle class="ring-track" id="ring-track" cx="50" cy="50" r="42" />
-          </svg>
-          <div class="ring-center">
-            <span class="ring-score" id="concordance-val">100%</span>
-            <span class="ring-label">PURITY</span>
+      <div class="scenario-deck" id="scenario-deck"></div>
+    </nav>
+
+    <!-- Master Workbench Chassis -->
+    <div class="workbench-chassis">
+      <!-- Top Telemetry Rail -->
+      <header class="telemetry-rail">
+        <div class="telemetry-lead">
+          <div class="telemetry-badge">
+            <span class="mini-pulse"></span>
+            <span>FIREWALL ENGAGED</span>
           </div>
+          <div class="telemetry-status-text">Autonomous AST Scope Verification</div>
         </div>
 
-        <div class="telemetry-metrics">
-          <div class="metric-cell">
-            <span class="metric-val" id="authorized-count" style="color:var(--cyan)">0</span>
-            <span class="metric-lbl">AUTHORIZED</span>
+        <!-- Center Concordance Pod -->
+        <div class="concordance-pod">
+          <div class="ring-wrapper">
+            <svg class="concordance-ring" viewBox="0 0 100 100">
+              <circle class="ring-bg" cx="50" cy="50" r="42" />
+              <circle class="ring-track" id="ring-track" cx="50" cy="50" r="42" />
+            </svg>
+            <div class="ring-center">
+              <span class="ring-score" id="concordance-val">100%</span>
+              <span class="ring-label">PURITY</span>
+            </div>
           </div>
-          <div class="metric-cell">
-            <span class="metric-val" id="collateral-count" style="color:var(--amber)">0</span>
-            <span class="metric-lbl">COLLATERAL</span>
-          </div>
-          <div class="metric-cell">
-            <span class="metric-val" id="lines-saved" style="color:#FFF">0</span>
-            <span class="metric-lbl">LINES SAVED</span>
+
+          <div class="telemetry-metrics">
+            <div class="metric-cell">
+              <span class="metric-val" id="authorized-count" style="color:var(--cyan)">0</span>
+              <span class="metric-lbl">AUTHORIZED</span>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-val" id="collateral-count" style="color:var(--amber)">0</span>
+              <span class="metric-lbl">COLLATERAL</span>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-val" id="lines-saved" style="color:#FFF">0</span>
+              <span class="metric-lbl">LINES SAVED</span>
+            </div>
           </div>
         </div>
 
         <button class="purge-master-btn" id="purge-all-btn">
           PURGE COLLATERAL EDITS
         </button>
-      </div>
+      </header>
 
-      <!-- Quick Switcher Deck -->
-      <div class="scenario-deck" id="scenario-deck"></div>
-    </header>
+      <!-- 2-Pane Clean Grid: Left = Silent Regression Radar; Right = Clean Spliced Inspector -->
+      <main class="workbench-grid-clean">
+        <!-- Left Column: Silent Regression Radar -->
+        <section class="panel radar-panel">
+          <div class="panel-header">
+            <div class="header-prompt-summary">
+              <span class="prompt-badge">ASKED:</span>
+              <span class="prompt-preview" id="prompt-display">Loading...</span>
+            </div>
+            <span class="radar-status" id="radar-status">2 HUNKS DETECTED</span>
+          </div>
+          <div class="hunks-stream" id="hunks-stream">
+            <!-- Rendered dynamically -->
+          </div>
+        </section>
 
-    <!-- 2-Pane Clean Grid: Left = Silent Regression Radar; Right = Clean Spliced Inspector -->
-    <main class="workbench-grid-clean">
-      <!-- Left Column: Silent Regression Radar -->
-      <section class="panel radar-panel">
-        <div class="panel-header">
-          <div class="header-prompt-summary">
-            <span class="prompt-badge">ASKED:</span>
-            <span class="prompt-preview" id="prompt-display">Loading...</span>
+        <!-- Right Column: Surgical Output Inspector -->
+        <section class="panel inspector-panel">
+          <div class="panel-header">
+            <div class="tab-group">
+              <button class="tab-btn active" id="tab-clean">CLEAN SPLICED CODE</button>
+              <button class="tab-btn" id="tab-raw">RAW AI CODE</button>
+            </div>
+            <div class="action-group">
+              <span class="micro-badge" id="file-badge">styles.css</span>
+              <button class="action-btn" id="copy-code-btn">Copy Clean</button>
+              <button class="action-btn primary" id="download-patch-btn">Download .patch</button>
+            </div>
           </div>
-          <span class="radar-status" id="radar-status">2 HUNKS DETECTED</span>
-        </div>
-        <div class="hunks-stream" id="hunks-stream">
-          <!-- Rendered dynamically -->
-        </div>
-      </section>
-
-      <!-- Right Column: Surgical Output Inspector -->
-      <section class="panel inspector-panel">
-        <div class="panel-header">
-          <div class="tab-group">
-            <button class="tab-btn active" id="tab-clean">CLEAN SPLICED CODE</button>
-            <button class="tab-btn" id="tab-raw">RAW AI CODE</button>
+          <div class="code-viewport">
+            <pre id="code-display" class="code-block"></pre>
           </div>
-          <div class="action-group">
-            <span class="micro-badge" id="file-badge">styles.css</span>
-            <button class="action-btn" id="copy-code-btn">Copy Clean</button>
-            <button class="action-btn primary" id="download-patch-btn">Download .patch</button>
-          </div>
-        </div>
-        <div class="code-viewport">
-          <pre id="code-display" class="code-block"></pre>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </div>
   </div>
 
 
