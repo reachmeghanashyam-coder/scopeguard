@@ -101,6 +101,18 @@ function updateTelemetry() {
   if (colCountEl) colCountEl.textContent = `${collateralHunks.length}`;
   if (linesSavedEl) linesSavedEl.textContent = `${linesSaved}`;
   if (radarStatus) radarStatus.textContent = `${totalHunks} HUNKS DETECTED`;
+
+  // Dynamically update master purge button state
+  if (purgeAllBtn) {
+    const hasActiveCollateral = collateralHunks.some(h => h.accepted);
+    if (!hasActiveCollateral && collateralHunks.length > 0) {
+      purgeAllBtn.innerHTML = '✓ ALL COLLATERAL EDITS PURGED';
+      purgeAllBtn.classList.add('purged-success');
+    } else {
+      purgeAllBtn.innerHTML = 'PURGE COLLATERAL EDITS';
+      purgeAllBtn.classList.remove('purged-success');
+    }
+  }
 }
 
 /**
@@ -335,16 +347,6 @@ if (purgeAllBtn) {
         h.accepted = false;
       }
     });
-
-    // Visual button feedback
-    const origHtml = purgeAllBtn.innerHTML;
-    purgeAllBtn.innerHTML = '✓ COLLATERAL EDITS PURGED!';
-    purgeAllBtn.classList.add('purged-success');
-    
-    setTimeout(() => {
-      purgeAllBtn.innerHTML = origHtml;
-      purgeAllBtn.classList.remove('purged-success');
-    }, 2000);
 
     updateTelemetry();
     renderHunkCards();
