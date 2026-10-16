@@ -33,7 +33,6 @@ const purgeAllBtn = document.getElementById('purge-all-btn') as HTMLButtonElemen
 
 // Workbench Main Grid Elements
 const promptDisplay = document.getElementById('prompt-display') as HTMLElement | null;
-const fileBadge = document.getElementById('file-badge') as HTMLElement | null;
 const radarStatus = document.getElementById('radar-status') as HTMLElement | null;
 const hunksStream = document.getElementById('hunks-stream') as HTMLElement | null;
 const codeDisplay = document.getElementById('code-display') as HTMLElement | null;
@@ -279,7 +278,6 @@ function openWorkbench() {
   if (currentScenarioTag) currentScenarioTag.textContent = activeScenario.tag.toUpperCase();
   if (currentScenarioName) currentScenarioName.textContent = activeScenario.title;
   if (promptDisplay) promptDisplay.textContent = `"${activeScenario.prompt}"`;
-  if (fileBadge) fileBadge.textContent = activeScenario.filename;
 
   activeHunks = analyzeScenario(activeScenario);
   renderWorkbenchPills();
