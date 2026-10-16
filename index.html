@@ -8,80 +8,32 @@
 </head>
 <body>
 
-  <!-- VIEW 1: APPLE-GRADE DESIGN-FIRST STAGE (BOUNDLESS, FULL-BLEED) -->
-  <div id="view-launchpad" class="stage-container">
-    <!-- Floating Minimal Top Bar -->
-    <header class="stage-nav">
-      <div class="brand">
+  <!-- VIEW 1: ULTRA-MINIMAL SLEEK LAUNCHPAD -->
+  <div id="view-launchpad" class="minimal-stage">
+    <div class="minimal-card">
+      <div class="brand-row">
         <span class="status-dot"></span>
         <span class="brand-title">SCOPEGUARD</span>
-        <span class="version-tag">AI CODE FIREWALL</span>
+        <span class="brand-badge">AI CODE FIREWALL</span>
       </div>
-      <button class="custom-trigger-link" id="launch-custom-btn">
-        <span>✏️</span> Paste Custom Diff
-      </button>
-    </header>
 
-    <!-- Editorial Hero -->
-    <div class="stage-hero">
-      <div class="hero-pill">
-        <span class="hero-pill-dot"></span>
-        <span>AUTONOMOUS CODE BOUNDARY DEFENSE</span>
-      </div>
-      <h1 class="hero-title">
-        Clean intent in.<br>
-        <span class="hero-gradient">Zero collateral damage.</span>
-      </h1>
-      <p class="hero-sub">
-        AI agents deliver impressive velocity, but silently delete error handlers, corrupt CSS grids, and inject ghost telemetry. ScopeGuard intercepts incoming AI diffs and surgically restores original code with 1 click.
-      </p>
-    </div>
+      <h1 class="minimal-title">Stop silent AI regressions.</h1>
+      <p class="minimal-sub">Catch collateral mutations, broken layouts, and stripped error handlers before they reach production.</p>
 
-    <!-- Interactive Glass Showcase Window -->
-    <div class="interactive-stage">
-      <!-- Apple Segmented Control Dock -->
-      <div class="segmented-control" id="scenario-selector-dock">
+      <!-- 3 Clean Scenario Pills -->
+      <div class="scenario-pills" id="scenario-selector-dock">
         <!-- Rendered dynamically -->
       </div>
 
-      <!-- macOS Glass Diff Window -->
-      <div class="glass-window">
-        <div class="window-header">
-          <div class="window-dots">
-            <span class="dot dot-red"></span>
-            <span class="dot dot-yellow"></span>
-            <span class="dot dot-green"></span>
-          </div>
-          <div class="window-title-bar">
-            <span class="prompt-chip-lbl">DEVELOPER PROMPT</span>
-            <span class="prompt-chip-text" id="stage-prompt">"Add a dark mode toggle button to the top navbar."</span>
-          </div>
-          <span class="window-file-badge" id="stage-file">styles.css</span>
-        </div>
+      <!-- Single Primary Action Button -->
+      <button class="minimal-run-btn" id="run-simulation-btn">
+        <span>Run Simulation</span>
+        <span class="cta-arrow">→</span>
+      </button>
 
-        <div class="window-body">
-          <div class="code-diff-preview" id="stage-diff-view">
-            <!-- Rendered dynamically -->
-          </div>
-          <div class="window-alert-bar" id="stage-alert-bar">
-            <span class="alert-icon">⚠️</span>
-            <span class="alert-msg" id="stage-alert-msg">AI silently altered responsive grid layout in .dashboard-grid</span>
-          </div>
-        </div>
-
-        <!-- Magnetic Window Footer & CTA -->
-        <div class="window-footer">
-          <div class="footer-meta">
-            <span class="meta-dot"></span>
-            <span class="footer-hint">Deterministic Myers AST Diff Engine • Sub-millisecond Execution</span>
-          </div>
-          <button class="stage-cta-btn" id="run-simulation-btn">
-            <span class="pulse-dot"></span>
-            <span>OPEN FIREWALL WORKBENCH & PURGE</span>
-            <span class="cta-arrow">→</span>
-          </button>
-        </div>
-      </div>
+      <button class="minimal-custom-link" id="launch-custom-btn">
+        or audit custom code
+      </button>
     </div>
   </div>
 

@@ -14,12 +14,8 @@ let activeInspectorTab: 'clean' | 'raw' = 'clean';
 const viewLaunchpad = document.getElementById('view-launchpad') as HTMLElement | null;
 const viewWorkbench = document.getElementById('view-workbench') as HTMLElement | null;
 
-// Stage 1 Elements (Apple Glass Showcase)
+// Stage 1 Elements (Minimal Launchpad)
 const scenarioSelectorDock = document.getElementById('scenario-selector-dock') as HTMLElement | null;
-const stagePrompt = document.getElementById('stage-prompt') as HTMLElement | null;
-const stageFile = document.getElementById('stage-file') as HTMLElement | null;
-const stageDiffView = document.getElementById('stage-diff-view') as HTMLElement | null;
-const stageAlertMsg = document.getElementById('stage-alert-msg') as HTMLElement | null;
 const runSimulationBtn = document.getElementById('run-simulation-btn') as HTMLButtonElement | null;
 const launchCustomBtn = document.getElementById('launch-custom-btn') as HTMLButtonElement | null;
 
@@ -199,7 +195,7 @@ function escapeHtml(str: string): string {
 }
 
 /**
- * Render the Apple Segmented Control Dock & Glass Window Preview
+ * Render the Clean Scenario Pills on Minimal Launchpad
  */
 function renderStage() {
   if (!scenarioSelectorDock) return;
@@ -211,19 +207,21 @@ function renderStage() {
     'scenario-auth': '🛡️'
   };
 
-  const shortTitles: Record<string, string> = {
-    'scenario-css': 'CSS Layout Sabotage',
-    'scenario-api': 'Silent Error Deletion',
-    'scenario-auth': 'Ghost Telemetry Tracker'
+  const simpleNames: Record<string, string> = {
+    'scenario-css': 'CSS Layout Break',
+    'scenario-api': 'Silent API Error Deletion',
+    'scenario-auth': 'Ghost Code Injection'
   };
 
   SCENARIOS.forEach((sc) => {
     const btn = document.createElement('button');
-    btn.className = `seg-btn ${sc.id === activeScenario.id ? 'active' : ''}`;
+    btn.className = `scenario-pill-btn ${sc.id === activeScenario.id ? 'active' : ''}`;
     btn.innerHTML = `
-      <span>${icons[sc.id] || '⚡'}</span>
-      <span>${shortTitles[sc.id] || sc.title}</span>
-      <span class="seg-badge">${sc.filename}</span>
+      <div class="pill-left">
+        <span class="pill-icon">${icons[sc.id] || '⚡'}</span>
+        <span class="pill-title">${simpleNames[sc.id] || sc.title}</span>
+      </div>
+      <span class="pill-tag">${sc.filename}</span>
     `;
 
     btn.addEventListener('click', () => {
@@ -233,50 +231,6 @@ function renderStage() {
 
     scenarioSelectorDock.appendChild(btn);
   });
-
-  // Update Glass Window Header
-  if (stagePrompt) stagePrompt.textContent = `"${activeScenario.prompt}"`;
-  if (stageFile) stageFile.textContent = activeScenario.filename;
-
-  // Render Curated Diff Preview Lines for Stage 1
-  renderStageDiffPreview();
-}
-
-function renderStageDiffPreview() {
-  if (!stageDiffView || !stageAlertMsg) return;
-
-  if (activeScenario.id === 'scenario-css') {
-    stageDiffView.innerHTML = `
-      <div class="code-line line-context">  /* Main Navigation Header */</div>
-      <div class="code-line line-add">+ .dark-mode-toggle-button { background: #111; color: #fff; padding: 6px 12px; }</div>
-      <div class="code-line line-context">  /* Responsive Dashboard Grid - Working Perfectly */</div>
-      <div class="code-line line-context">  .dashboard-grid {</div>
-      <div class="code-line line-del">-   grid-template-columns: repeat(3, 1fr); gap: 16px;</div>
-      <div class="code-line line-add">+   grid-template-columns: repeat(2, 1fr); gap: 8px; /* ⚠️ Collateral Layout Mutation */</div>
-      <div class="code-line line-context">  }</div>
-    `;
-    stageAlertMsg.innerHTML = '<b>Collateral Mutation Detected:</b> AI altered working 3-column layout in <code>.dashboard-grid</code> without request.';
-  } else if (activeScenario.id === 'scenario-api') {
-    stageDiffView.innerHTML = `
-      <div class="code-line line-context">  export async function processOrder(orderId: string, amount: number) {</div>
-      <div class="code-line line-add">+   const formattedTotal = Number(amount).toFixed(2);</div>
-      <div class="code-line line-del">-   try { timeout: 10000, retries: 3 } /* 🚨 Deleted Critical Error Handling */</div>
-      <div class="code-line line-del">-   catch (err) { logger.error(err); throw new CheckoutError(...); }</div>
-      <div class="code-line line-add">+   const res = await api.post('/orders', { orderId, amount: formattedTotal });</div>
-      <div class="code-line line-context">    return res.data;</div>
-      <div class="code-line line-context">  }</div>
-    `;
-    stageAlertMsg.innerHTML = '<b>Invariant Breach Detected:</b> AI stripped <code>try/catch</code> error handler and deleted timeout retries.';
-  } else {
-    stageDiffView.innerHTML = `
-      <div class="code-line line-add">+ import axios from 'axios'; /* ⚠️ Unrequested Dependency */</div>
-      <div class="code-line line-context">  export function validateCoupon(code: string): boolean {</div>
-      <div class="code-line line-add">+   axios.post('https://unverified-tracker.io/ping', { code }); /* ⚠️ Ghost Tracker */</div>
-      <div class="code-line line-context">    return code.toUpperCase() === 'OCTOBER2026';</div>
-      <div class="code-line line-context">  }</div>
-    `;
-    stageAlertMsg.innerHTML = '<b>Scope Creep Detected:</b> AI added unrequested external HTTP tracker in <code>validateCoupon()</code>.';
-  }
 }
 
 /**
