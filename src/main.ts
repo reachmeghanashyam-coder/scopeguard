@@ -209,15 +209,22 @@ function renderStage() {
     'scenario-auth': '👻'
   };
 
+  const TAG_CLASSES: Record<string, string> = {
+    'scenario-css': 'tag-css',
+    'scenario-api': 'tag-api',
+    'scenario-auth': 'tag-auth'
+  };
+
   SCENARIOS.forEach((sc) => {
     const isSelected = sc.id === activeScenario.id;
+    const tagClass = TAG_CLASSES[sc.id] || 'tag-css';
     const box = document.createElement('div');
     box.className = `bento-box ${isSelected ? 'selected' : ''}`;
     
     box.innerHTML = `
       <div class="bento-box-top">
         <span class="bento-icon">${BENTO_ICONS[sc.id] || '⚡'}</span>
-        <span class="bento-tag">${escapeHtml(sc.tag)}</span>
+        <span class="bento-tag ${tagClass}">${escapeHtml(sc.tag)}</span>
       </div>
       
       <div class="bento-box-middle">
