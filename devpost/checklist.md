@@ -9,7 +9,7 @@ Build mode: fast
 
 ## Slices
 
-- [ ] **1. The Differ & AST Symbol Engine**
+- [x] **1. The Differ & AST Symbol Engine**
   Becomes usable: Automated diffing and AST scanning engine that parses line additions/deletions and identifies enclosing symbols.
   Why now: The algorithmic core of ScopeGuard; all UI and classification relies on this engine.
   PRD ref: `prd.md > Features and Behavior > Myers/LCS Line & Hunk Differ`
@@ -19,7 +19,7 @@ Build mode: fast
   Learner check: Run `npm test` and verify that diff hunk extraction is mathematically exact.
   Commit: `feat(engine): add line hunk differ and AST structural symbol scanner`
 
-- [ ] **2. The Intent Classifier & Surgical Splicer**
+- [x] **2. The Intent Classifier & Surgical Splicer**
   Becomes usable: Classifier that categorizes hunks into `AUTHORIZED` vs `COLLATERAL_MUTATION`, and a mathematical splicer that applies only accepted hunks to reconstruct clean code.
   Why now: Delivers the core unique value: turning detection into instant 1-click remediation.
   PRD ref: `prd.md > Features and Behavior > Intent & Scope Classifier`, `prd.md > Surgical Splicer`
@@ -29,7 +29,7 @@ Build mode: fast
   Learner check: Test that purging a collateral hunk mathematically removes it from the reconstructed text.
   Commit: `feat(splicer): add intent classifier and surgical code reconstruction engine`
 
-- [ ] **3. Apple-Pro Workbench UI & Concordance Ring**
+- [x] **3. Apple-Pro Workbench UI & Concordance Ring**
   Becomes usable: High-precision anodized dark UI with SVG Concordance Ring, Silent Regression Radar hunk cards, and 1-click "Purge All Collateral" button.
   Why now: Gives the tool its signature Apple Pro design and instant 3-second comprehension for judges.
   PRD ref: `prd.md > Screens and Layout`, `prd.md > Look and Feel`

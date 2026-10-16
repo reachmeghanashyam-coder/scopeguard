@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScopeGuard — AI Code Firewall & Surgical Splicer</title>
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+  <div id="workbench">
+    <!-- Top Telemetry Rail: Logo, Concordance Ring, Metric Readouts, Scenario Selector -->
+    <header class="telemetry-rail">
+      <div class="brand">
+        <span class="status-dot"></span>
+        <span class="brand-title">SCOPEGUARD</span>
+        <span class="version-tag">AI CODE FIREWALL</span>
+      </div>
+
+      <!-- Center Concordance Ring Meter -->
+      <div class="concordance-pod">
+        <div class="ring-wrapper">
+          <svg class="concordance-ring" viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="42" />
+            <circle class="ring-track" id="ring-track" cx="50" cy="50" r="42" />
+          </svg>
+          <div class="ring-center">
+            <span class="ring-score" id="concordance-val">100%</span>
+            <span class="ring-label">PURITY</span>
+          </div>
+        </div>
+
+        <div class="telemetry-metrics">
+          <div class="metric-cell">
+            <span class="metric-val" id="authorized-count" style="color:var(--cyan)">0</span>
+            <span class="metric-lbl">AUTHORIZED</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-val" id="collateral-count" style="color:var(--amber)">0</span>
+            <span class="metric-lbl">COLLATERAL</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-val" id="lines-saved" style="color:#FFF">0</span>
+            <span class="metric-lbl">LINES SAVED</span>
+          </div>
+        </div>
+
+        <button class="purge-master-btn" id="purge-all-btn">
+          PURGE COLLATERAL EDITS
+        </button>
+      </div>
+
+      <!-- Right Scenario Selector -->
+      <div class="scenario-deck" id="scenario-deck"></div>
+    </header>
+
+    <!-- Main Surgical 3-Pane Grid -->
+    <main class="workbench-grid">
+      <!-- Left Column: User Intent & Guardrail Card -->
+      <aside class="panel intent-panel">
+        <div class="panel-header">
+          <span>USER INTENT & SCOPE BOUNDARY</span>
+          <span class="micro-badge" id="file-badge">styles.css</span>
+        </div>
+        <div class="intent-card">
+          <label class="field-label">DEVELOPER PROMPT (WHAT WAS ASKED)</label>
+          <div class="prompt-text" id="prompt-display">Loading scenario...</div>
+        </div>
+
+        <div class="guardrail-section">
+          <label class="field-label">ACTIVE SCOPE FIREWALL GUARDS</label>
+          <div class="guard-pill active">
+            <span class="guard-icon">🛡️</span>
+            <span>Prevent Unrequested Layout Mutations</span>
+          </div>
+          <div class="guard-pill active">
+            <span class="guard-icon">🔒</span>
+            <span>Block Safety & Error Handler Deletions</span>
+          </div>
+          <div class="guard-pill active">
+            <span class="guard-icon">⚠️</span>
+            <span>Flag Third-Party Ghost Dependencies</span>
+          </div>
+        </div>
+
+        <div class="custom-trigger-box">
+          <button class="custom-btn" id="custom-scan-btn">
+            <span>✏️</span> Paste Custom Code / Prompt
+          </button>
+        </div>
+      </aside>
+
+      <!-- Center Column: Silent Regression Radar (Hunk Cards) -->
+      <section class="panel radar-panel">
+        <div class="panel-header">
+          <span>SILENT REGRESSION RADAR</span>
+          <span class="radar-status" id="radar-status">3 HUNKS DETECTED</span>
+        </div>
+        <div class="hunks-stream" id="hunks-stream">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- Right Column: Surgical Output Inspector -->
+      <section class="panel inspector-panel">
+        <div class="panel-header">
+          <div class="tab-group">
+            <button class="tab-btn active" id="tab-clean">CLEAN SPLICED CODE</button>
+            <button class="tab-btn" id="tab-raw">RAW AI CODE</button>
+          </div>
+          <div class="action-group">
+            <button class="action-btn" id="copy-code-btn">Copy Clean</button>
+            <button class="action-btn primary" id="download-patch-btn">Download .patch</button>
+          </div>
+        </div>
+        <div class="code-viewport">
+          <pre id="code-display" class="code-block"></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Custom Code Modal -->
+  <div class="modal-backdrop" id="custom-modal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <span>CUSTOM CODE AUDIT</span>
+        <button class="close-btn" id="close-modal-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="field-label">YOUR PROMPT</label>
+        <input type="text" id="custom-prompt" class="modal-input" placeholder="e.g. Add dark mode toggle button" />
+        
+        <div class="modal-grid">
+          <div>
+            <label class="field-label">ORIGINAL CODE (BEFORE AI)</label>
+            <textarea id="custom-before" class="modal-textarea" rows="12"></textarea>
+          </div>
+          <div>
+            <label class="field-label">AI PROPOSED CODE (AFTER AI)</label>
+            <textarea id="custom-after" class="modal-textarea" rows="12"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="action-btn primary" id="run-custom-audit-btn">RUN DETERMINISTIC AUDIT</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
