@@ -8,10 +8,10 @@
 </head>
 <body>
 
-  <!-- VIEW 1: SLEEK DESIGN-FIRST LAUNCHPAD -->
-  <div id="view-launchpad" class="launchpad-chassis">
-    <!-- Top Brand Bar -->
-    <header class="launch-header">
+  <!-- VIEW 1: APPLE-GRADE DESIGN-FIRST STAGE (BOUNDLESS, FULL-BLEED) -->
+  <div id="view-launchpad" class="stage-container">
+    <!-- Floating Minimal Top Bar -->
+    <header class="stage-nav">
       <div class="brand">
         <span class="status-dot"></span>
         <span class="brand-title">SCOPEGUARD</span>
@@ -22,37 +22,66 @@
       </button>
     </header>
 
-    <!-- Apple-Style Editorial Hero -->
-    <div class="hero-block">
+    <!-- Editorial Hero -->
+    <div class="stage-hero">
       <div class="hero-pill">
         <span class="hero-pill-dot"></span>
         <span>AUTONOMOUS CODE BOUNDARY DEFENSE</span>
       </div>
       <h1 class="hero-title">
         Clean intent in.<br>
-        <span class="hero-gradient">Zero collateral damage out.</span>
+        <span class="hero-gradient">Zero collateral damage.</span>
       </h1>
       <p class="hero-sub">
-        AI coding agents produce rapid code, but introduce silent collateral damage: erased error guards, corrupted CSS layouts, and unrequested ghost dependencies. Select a real-world scenario below to simulate the firewall in action.
+        AI agents deliver impressive velocity, but silently delete error handlers, corrupt CSS grids, and inject ghost telemetry. ScopeGuard intercepts incoming AI diffs and surgically restores original code with 1 click.
       </p>
     </div>
 
-    <!-- 3 Design-First Scenario Showcase Cards -->
-    <div class="scenario-cards-deck" id="scenario-cards-deck">
-      <!-- Rendered dynamically -->
-    </div>
-
-    <!-- Integrated Command Bar CTA -->
-    <div class="command-bar">
-      <div class="command-info">
-        <span class="command-label">READY TO SIMULATE:</span>
-        <span class="command-target" id="command-target-text">The CSS Layout Sabotage (styles.css)</span>
+    <!-- Interactive Glass Showcase Window -->
+    <div class="interactive-stage">
+      <!-- Apple Segmented Control Dock -->
+      <div class="segmented-control" id="scenario-selector-dock">
+        <!-- Rendered dynamically -->
       </div>
-      <button class="launch-btn" id="run-simulation-btn">
-        <span class="pulse-dot"></span>
-        <span>RUN FIREWALL SIMULATION</span>
-        <span class="cta-arrow">→</span>
-      </button>
+
+      <!-- macOS Glass Diff Window -->
+      <div class="glass-window">
+        <div class="window-header">
+          <div class="window-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <div class="window-title-bar">
+            <span class="prompt-chip-lbl">DEVELOPER PROMPT</span>
+            <span class="prompt-chip-text" id="stage-prompt">"Add a dark mode toggle button to the top navbar."</span>
+          </div>
+          <span class="window-file-badge" id="stage-file">styles.css</span>
+        </div>
+
+        <div class="window-body">
+          <div class="code-diff-preview" id="stage-diff-view">
+            <!-- Rendered dynamically -->
+          </div>
+          <div class="window-alert-bar" id="stage-alert-bar">
+            <span class="alert-icon">⚠️</span>
+            <span class="alert-msg" id="stage-alert-msg">AI silently altered responsive grid layout in .dashboard-grid</span>
+          </div>
+        </div>
+
+        <!-- Magnetic Window Footer & CTA -->
+        <div class="window-footer">
+          <div class="footer-meta">
+            <span class="meta-dot"></span>
+            <span class="footer-hint">Deterministic Myers AST Diff Engine • Sub-millisecond Execution</span>
+          </div>
+          <button class="stage-cta-btn" id="run-simulation-btn">
+            <span class="pulse-dot"></span>
+            <span>OPEN FIREWALL WORKBENCH & PURGE</span>
+            <span class="cta-arrow">→</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 

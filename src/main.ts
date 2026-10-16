@@ -14,11 +14,14 @@ let activeInspectorTab: 'clean' | 'raw' = 'clean';
 const viewLaunchpad = document.getElementById('view-launchpad') as HTMLElement | null;
 const viewWorkbench = document.getElementById('view-workbench') as HTMLElement | null;
 
-// Launchpad Elements
-const scenarioCardsDeck = document.getElementById('scenario-cards-deck') as HTMLElement | null;
+// Stage 1 Elements (Apple Glass Showcase)
+const scenarioSelectorDock = document.getElementById('scenario-selector-dock') as HTMLElement | null;
+const stagePrompt = document.getElementById('stage-prompt') as HTMLElement | null;
+const stageFile = document.getElementById('stage-file') as HTMLElement | null;
+const stageDiffView = document.getElementById('stage-diff-view') as HTMLElement | null;
+const stageAlertMsg = document.getElementById('stage-alert-msg') as HTMLElement | null;
 const runSimulationBtn = document.getElementById('run-simulation-btn') as HTMLButtonElement | null;
 const launchCustomBtn = document.getElementById('launch-custom-btn') as HTMLButtonElement | null;
-const commandTargetText = document.getElementById('command-target-text') as HTMLElement | null;
 
 // Workbench Header & Telemetry Elements
 const backToLaunchBtn = document.getElementById('back-to-launch-btn') as HTMLButtonElement | null;
@@ -68,11 +71,10 @@ function updateTelemetry() {
   const authorizedHunks = activeHunks.filter(h => h.status === 'AUTHORIZED');
   const collateralHunks = activeHunks.filter(h => h.status !== 'AUTHORIZED');
   
-  // Calculate lines saved (number of collateral lines rejected or prevented)
+  // Calculate lines saved
   const rejectedCollateral = collateralHunks.filter(h => !h.accepted);
   const linesSaved = rejectedCollateral.reduce((acc, h) => acc + h.addedLines.length + h.deletedLines.length, 0);
 
-  // If all collateral are purged, purity is 100%. If none are purged, purity reflects authorized ratio.
   let purityScore = 100;
   if (totalHunks > 0) {
     if (rejectedCollateral.length === collateralHunks.length) {
@@ -197,11 +199,11 @@ function escapeHtml(str: string): string {
 }
 
 /**
- * Render the 3 Scenario Selection Cards on Launchpad
+ * Render the Apple Segmented Control Dock & Glass Window Preview
  */
-function renderLaunchpadCards() {
-  if (!scenarioCardsDeck) return;
-  scenarioCardsDeck.innerHTML = '';
+function renderStage() {
+  if (!scenarioSelectorDock) return;
+  scenarioSelectorDock.innerHTML = '';
 
   const icons: Record<string, string> = {
     'scenario-css': '🎨',
@@ -209,39 +211,71 @@ function renderLaunchpadCards() {
     'scenario-auth': '🛡️'
   };
 
-  const dangerLabels: Record<string, string> = {
-    'scenario-css': '💥 Silently rewrote 3-column responsive grid to 2',
-    'scenario-api': '🚨 Erased try/catch error handling & timeouts',
-    'scenario-auth': '⚠️ Injected unverified telemetry tracking'
+  const shortTitles: Record<string, string> = {
+    'scenario-css': 'CSS Layout Sabotage',
+    'scenario-api': 'Silent Error Deletion',
+    'scenario-auth': 'Ghost Telemetry Tracker'
   };
 
-  SCENARIOS.forEach((sc, idx) => {
-    const card = document.createElement('div');
-    card.className = `scenario-select-card ${sc.id === activeScenario.id ? 'active' : ''}`;
-    card.innerHTML = `
-      <div class="card-top-row">
-        <div class="card-icon-orb">${icons[sc.id] || '⚡'}</div>
-        <div class="card-radio"></div>
-      </div>
-      <div class="card-tag">SCENARIO 0${idx + 1} • ${escapeHtml(sc.tag.toUpperCase())}</div>
-      <div class="card-title">${escapeHtml(sc.title)}</div>
-      <div class="card-prompt-box">"${escapeHtml(sc.prompt)}"</div>
-      <div class="card-danger">${dangerLabels[sc.id] || '⚠️ Collateral edits detected'}</div>
+  SCENARIOS.forEach((sc) => {
+    const btn = document.createElement('button');
+    btn.className = `seg-btn ${sc.id === activeScenario.id ? 'active' : ''}`;
+    btn.innerHTML = `
+      <span>${icons[sc.id] || '⚡'}</span>
+      <span>${shortTitles[sc.id] || sc.title}</span>
+      <span class="seg-badge">${sc.filename}</span>
     `;
 
-    card.addEventListener('click', () => {
+    btn.addEventListener('click', () => {
       activeScenario = sc;
-      if (commandTargetText) {
-        commandTargetText.textContent = `${sc.title} (${sc.filename})`;
-      }
-      renderLaunchpadCards();
+      renderStage();
     });
 
-    scenarioCardsDeck.appendChild(card);
+    scenarioSelectorDock.appendChild(btn);
   });
 
-  if (commandTargetText) {
-    commandTargetText.textContent = `${activeScenario.title} (${activeScenario.filename})`;
+  // Update Glass Window Header
+  if (stagePrompt) stagePrompt.textContent = `"${activeScenario.prompt}"`;
+  if (stageFile) stageFile.textContent = activeScenario.filename;
+
+  // Render Curated Diff Preview Lines for Stage 1
+  renderStageDiffPreview();
+}
+
+function renderStageDiffPreview() {
+  if (!stageDiffView || !stageAlertMsg) return;
+
+  if (activeScenario.id === 'scenario-css') {
+    stageDiffView.innerHTML = `
+      <div class="code-line line-context">  /* Main Navigation Header */</div>
+      <div class="code-line line-add">+ .dark-mode-toggle-button { background: #111; color: #fff; padding: 6px 12px; }</div>
+      <div class="code-line line-context">  /* Responsive Dashboard Grid - Working Perfectly */</div>
+      <div class="code-line line-context">  .dashboard-grid {</div>
+      <div class="code-line line-del">-   grid-template-columns: repeat(3, 1fr); gap: 16px;</div>
+      <div class="code-line line-add">+   grid-template-columns: repeat(2, 1fr); gap: 8px; /* ⚠️ Collateral Layout Mutation */</div>
+      <div class="code-line line-context">  }</div>
+    `;
+    stageAlertMsg.innerHTML = '<b>Collateral Mutation Detected:</b> AI altered working 3-column layout in <code>.dashboard-grid</code> without request.';
+  } else if (activeScenario.id === 'scenario-api') {
+    stageDiffView.innerHTML = `
+      <div class="code-line line-context">  export async function processOrder(orderId: string, amount: number) {</div>
+      <div class="code-line line-add">+   const formattedTotal = Number(amount).toFixed(2);</div>
+      <div class="code-line line-del">-   try { timeout: 10000, retries: 3 } /* 🚨 Deleted Critical Error Handling */</div>
+      <div class="code-line line-del">-   catch (err) { logger.error(err); throw new CheckoutError(...); }</div>
+      <div class="code-line line-add">+   const res = await api.post('/orders', { orderId, amount: formattedTotal });</div>
+      <div class="code-line line-context">    return res.data;</div>
+      <div class="code-line line-context">  }</div>
+    `;
+    stageAlertMsg.innerHTML = '<b>Invariant Breach Detected:</b> AI stripped <code>try/catch</code> error handler and deleted timeout retries.';
+  } else {
+    stageDiffView.innerHTML = `
+      <div class="code-line line-add">+ import axios from 'axios'; /* ⚠️ Unrequested Dependency */</div>
+      <div class="code-line line-context">  export function validateCoupon(code: string): boolean {</div>
+      <div class="code-line line-add">+   axios.post('https://unverified-tracker.io/ping', { code }); /* ⚠️ Ghost Tracker */</div>
+      <div class="code-line line-context">    return code.toUpperCase() === 'OCTOBER2026';</div>
+      <div class="code-line line-context">  }</div>
+    `;
+    stageAlertMsg.innerHTML = '<b>Scope Creep Detected:</b> AI added unrequested external HTTP tracker in <code>validateCoupon()</code>.';
   }
 }
 
@@ -291,7 +325,7 @@ function openWorkbench() {
 function openLaunchpad() {
   if (viewWorkbench) viewWorkbench.style.display = 'none';
   if (viewLaunchpad) viewLaunchpad.style.display = 'flex';
-  renderLaunchpadCards();
+  renderStage();
 }
 
 // Master Purge: Auto-reject all collateral/invariant hunks, keep authorized
@@ -420,4 +454,4 @@ if (runCustomAuditBtn && customModal) {
 }
 
 // Initial Initialization
-renderLaunchpadCards();
+renderStage();
