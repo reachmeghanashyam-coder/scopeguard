@@ -27,6 +27,7 @@ const tabClean = document.getElementById('tab-clean') as HTMLButtonElement | nul
 const tabRaw = document.getElementById('tab-raw') as HTMLButtonElement | null;
 const copyCodeBtn = document.getElementById('copy-code-btn') as HTMLButtonElement | null;
 const downloadPatchBtn = document.getElementById('download-patch-btn') as HTMLButtonElement | null;
+const runAuditBtn = document.getElementById('run-audit-btn') as HTMLButtonElement | null;
 
 // Modal Elements
 const customModal = document.getElementById('custom-modal') as HTMLElement | null;
@@ -183,19 +184,101 @@ function escapeHtml(str: string): string {
 }
 
 /**
+ * Execute simulation scanning animation and audit
+ */
+function executeAuditAnimation() {
+  if (!hunksStream) return;
+
+  if (runAuditBtn) {
+    runAuditBtn.innerHTML = '<span class="btn-pulse-dot"></span><span>SCANNING DIFF...</span>';
+    runAuditBtn.style.opacity = '0.7';
+    runAuditBtn.style.pointerEvents = 'none';
+  }
+
+  // Show scanning visual in radar
+  hunksStream.innerHTML = `
+    <div class="scanning-card">
+      <div class="scan-radar-ring"></div>
+      <div class="scanning-title">INTERCEPTING AI CODE DIFF...</div>
+      <div class="scanning-sub">Parsing AST syntax trees & verifying scope invariants</div>
+    </div>
+  `;
+
+  if (radarStatus) radarStatus.textContent = 'SCANNING AST TOKENS...';
+
+  setTimeout(() => {
+    activeHunks = analyzeScenario(activeScenario);
+    updateTelemetry();
+    renderHunkCards();
+    activeInspectorTab = 'clean';
+    updateInspector();
+
+    if (runAuditBtn) {
+      runAuditBtn.innerHTML = '<span class="btn-pulse-dot"></span><span>⚡ RE-RUN AUDIT</span>';
+      runAuditBtn.style.opacity = '1';
+      runAuditBtn.style.pointerEvents = 'auto';
+    }
+  }, 450);
+}
+
+/**
  * Load a scenario into the workbench
  */
-function loadScenario(scenario: Scenario) {
+function loadScenario(scenario: Scenario, autoAudit = false) {
   activeScenario = scenario;
-  activeHunks = analyzeScenario(scenario);
 
   if (promptDisplay) promptDisplay.textContent = `"${scenario.prompt}"`;
   if (fileBadge) fileBadge.textContent = scenario.filename;
 
   updateScenarioPills();
-  updateTelemetry();
-  renderHunkCards();
-  updateInspector();
+
+  if (autoAudit) {
+    executeAuditAnimation();
+  } else {
+    // Render Standby Simulation state
+    activeHunks = [];
+    if (radarStatus) radarStatus.textContent = 'AWAITING AUDIT';
+    if (ringScore) ringScore.textContent = 'STANDBY';
+    if (authCountEl) authCountEl.textContent = '0';
+    if (colCountEl) colCountEl.textContent = '0';
+    if (linesSavedEl) linesSavedEl.textContent = '0';
+    if (ringTrack) {
+      ringTrack.style.strokeDashoffset = '263.89';
+      ringTrack.classList.remove('warning');
+    }
+
+    if (runAuditBtn) {
+      runAuditBtn.innerHTML = '<span class="btn-pulse-dot"></span><span>⚡ RUN FIREWALL AUDIT</span>';
+      runAuditBtn.style.opacity = '1';
+      runAuditBtn.style.pointerEvents = 'auto';
+    }
+
+    if (codeDisplay) {
+      codeDisplay.textContent = scenario.aiCode;
+      if (tabRaw) tabRaw.classList.add('active');
+      if (tabClean) tabClean.classList.remove('active');
+    }
+
+    if (hunksStream) {
+      hunksStream.innerHTML = `
+        <div class="standby-card">
+          <div class="standby-icon">🛡️</div>
+          <div class="standby-title">AI CODE READY FOR INSPECTION</div>
+          <div class="standby-desc">Click <b>RUN FIREWALL AUDIT</b> to intercept incoming AI modifications and enforce AST scope boundaries.</div>
+          <button class="standby-btn" id="standby-audit-btn">⚡ INTERCEPT & SCAN DIFF</button>
+        </div>
+      `;
+
+      const standbyBtn = document.getElementById('standby-audit-btn') as HTMLButtonElement | null;
+      if (standbyBtn) {
+        standbyBtn.addEventListener('click', () => executeAuditAnimation());
+      }
+    }
+  }
+}
+
+if (runAuditBtn) {
+  runAuditBtn.addEventListener('click', () => executeAuditAnimation());
 }
 
 /**
@@ -347,7 +430,7 @@ if (runCustomAuditBtn && customModal) {
     };
 
     customModal.classList.remove('open');
-    loadScenario(customScenario);
+    loadScenario(customScenario, true);
   });
 }
 
