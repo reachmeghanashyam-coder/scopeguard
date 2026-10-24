@@ -7,8 +7,17 @@ status: approved
 
 An AI Collateral-Damage Firewall & Surgical Code Splicer that detects silent, unrequested code mutations made by AI coding agents and surgically purges them while preserving requested features.
 
-## The Unique Kernel
-Deterministic structural AST symbol extraction and hunk diff analysis that compares **User Intent / Allowed Scope** against **Actual Code Mutations**. Unlike passive text linters, ScopeGuard features a **Surgical Splicer** that mathematically reconstructs clean source files by purging unauthorized collateral changes with a single click.
+## The Unique Kernel: Hero Sponsor Integration with Devpost Learn
+ScopeGuard is the dedicated **Security & Intent Firewall for the Devpost Learn Agent Ecosystem** (`challengepost/learn-ai-basics`).
+
+While Devpost Learn teaches builders to accelerate using autonomous AI coding agents during the `5-build` phase, it exposes an acute vulnerability: AI coding agents suffer from **"Diff Blindness"**—quietly deleting error handlers, breaking CSS layouts, and altering working functions.
+
+**ScopeGuard is the mechanical counterweight to Devpost Learn:**
+1. **The Specification Ground Truth:** ScopeGuard directly binds to the prompt specifications, user journeys, and boundaries generated during Devpost Learn's `2-scope` and `3-prd` interviews.
+2. **The Protagonist Rule:** Devpost Learn establishes the **Authorized Intent**. ScopeGuard inspects the **Staged Code Changes** against that intent. 
+3. **Architectural Dependency:** If the Devpost Learn specification model is removed, ScopeGuard has no baseline boundary to enforce. Together, they form a complete, closed-loop DevSecOps lifecycle: *Plan with Devpost Learn $\rightarrow$ Code with AI Agents $\rightarrow$ Ship with ScopeGuard Certainty.*
+
+Unlike passive text linters, ScopeGuard features a **Surgical Splicer** that mathematically reconstructs clean source files by purging unauthorized collateral changes with a single click.
 
 ## Who It's For
 Developers who use AI coding agents (Cursor, Claude Code, Copilot, Antigravity) and suffer from "Diff Blindness"—accepting AI changes only to discover days later that the AI silently altered unrelated functions, broke CSS layouts, or deleted error handlers.

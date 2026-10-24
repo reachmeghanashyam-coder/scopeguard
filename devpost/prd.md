@@ -7,6 +7,10 @@ status: approved
 
 An AI Collateral-Damage Firewall & Surgical Code Splicer that compares what you asked an AI for against what it actually changed, flagging silent collateral edits and letting you purge them with 1 click.
 Source: `scope.md > The Unique Kernel`
+## Sponsor Protagonist Integration
+ScopeGuard binds directly to the Devpost Learn skill curriculum:
+- **Phase 2 (2-scope) & Phase 3 (3-prd) Integration:** ScopeGuard ingests the user intent boundaries defined in the Devpost Learn planning files to extract authorized keyword tokens and invariant constraints.
+- **Phase 5 (5-build) Firewall:** Acts as the deterministic gatekeeper during agent code generation. While coding agents execute tasks, ScopeGuard intercepts diffs, prevents regressions, and halts unauthorized git commit operations before unapproved changes pollute the repository.
 
 ## The Core Journey
 1. **Arrival & Zero Setup:** The developer opens ScopeGuard. The interface loads in a calm, dark obsidian Apple Pro chassis. The Concordance Ring is resting with Scenario 1 pre-selected ("CSS Layout Sabotage").
