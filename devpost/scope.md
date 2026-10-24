@@ -3,56 +3,27 @@ doc: scope
 status: approved
 ---
 
-# ScopeGuard
+# ScopeGuard 2.0
 
-An AI Collateral-Damage Firewall & Surgical Code Splicer that detects silent, unrequested code mutations made by AI coding agents and surgically purges them while preserving requested features.
+An Autonomous Semantic Firewall & Blast Radius Controller for the GitLab Duo Agent Platform that intercepts AI-generated Merge Requests, detects silent collateral code mutations, and surgically purges regressions with byte-level fidelity.
 
-## The Unique Kernel: Hero Sponsor Integration with Devpost Learn
-ScopeGuard is the dedicated **Security & Intent Firewall for the Devpost Learn Agent Ecosystem** (`challengepost/learn-ai-basics`).
+## The Unique Kernel: Hero Sponsor Integration with GitLab Duo
+ScopeGuard is the dedicated **Semantic Integrity & Blast Radius Firewall for the GitLab Duo Agent Platform**.
 
-While Devpost Learn teaches builders to accelerate using autonomous AI coding agents during the `5-build` phase, it exposes an acute vulnerability: AI coding agents suffer from **"Diff Blindness"**—quietly deleting error handlers, breaking CSS layouts, and altering working functions.
+While AI coding assistants (GitLab Duo Code Suggestions, Claude, Copilot) accelerate code creation, they introduce an acute enterprise vulnerability: **"Diff Blindness"**—silently deleting try/catch blocks, breaking production CSS layouts, altering unrelated functions, and introducing ghost dependencies.
 
-**ScopeGuard is the mechanical counterweight to Devpost Learn:**
-1. **The Specification Ground Truth:** ScopeGuard directly binds to the prompt specifications, user journeys, and boundaries generated during Devpost Learn's `2-scope` and `3-prd` interviews.
-2. **The Protagonist Rule:** Devpost Learn establishes the **Authorized Intent**. ScopeGuard inspects the **Staged Code Changes** against that intent. 
-3. **Architectural Dependency:** If the Devpost Learn specification model is removed, ScopeGuard has no baseline boundary to enforce. Together, they form a complete, closed-loop DevSecOps lifecycle: *Plan with Devpost Learn $\rightarrow$ Code with AI Agents $\rightarrow$ Ship with ScopeGuard Certainty.*
+**ScopeGuard is the mechanical immune system for GitLab Duo:**
+1. **The Life After Code Protagonist:** Operating natively in GitLab CI/CD (`.gitlab/ci/scopeguard-gate.gitlab-ci.yml`) and GitLab Duo Chat via the Model Context Protocol (`dist/mcp.js`), ScopeGuard analyzes Merge Requests the instant they are opened.
+2. **Intent Concordance Scoring:** Compares the developer's authorized prompt against staged Babel AST symbol changes.
+3. **Closed-Loop Surgical Splicing:** Rather than passively alerting, ScopeGuard's deterministic LCS Splicer purges collateral mutations with zero human intervention and updates the Merge Request with verified clean code.
 
-Unlike passive text linters, ScopeGuard features a **Surgical Splicer** that mathematically reconstructs clean source files by purging unauthorized collateral changes with a single click.
-
-## Who It's For
-Developers who use AI coding agents (Cursor, Claude Code, Copilot, Antigravity) and suffer from "Diff Blindness"—accepting AI changes only to discover days later that the AI silently altered unrelated functions, broke CSS layouts, or deleted error handlers.
-
-## The Core Loop
-1. The developer inspects an AI agent's proposed changes (via 4 built-in real-world disaster scenarios or custom code/diff input).
-2. ScopeGuard parses the AST symbols and diff hunks, rendering a high-precision **Concordance Ring** (Intent Purity vs. Collateral Drift) and **Silent Regression Radar**.
-3. Every hunk is classified: `AUTHORIZED` (the feature you asked for), `COLLATERAL_MUTATION` (unrelated working code altered or deleted), or `SCOPE_CREEP` (unrequested bloat).
-4. The developer clicks **"Purge Collateral Edits"** $\rightarrow$ the Surgical Splicer reconstructs the clean code in real time, keeping the requested feature intact.
-5. The developer copies the clean code or downloads a `.patch` file.
-
-## Inspiration & Identity
-- **Apple Pro Developer Tools (Instruments, Xcode Organizer):** Extreme quiet restraint, deep obsidian chassis, SF Pro / Inter typography, high-contrast cyan/amber status indicators, zero gimmickry.
-- **Concordance Meter:** Inspired by Apple Watch Activity Rings—communicating intent alignment versus drift in a single 3-second glance.
-
-## Why This Matters to the Learner
-Born directly from the learner's real frustration with AI coding tools silently breaking working code. Solves the exact "Cognitive Debt" problem at the heart of the Devpost Learn curriculum.
-
-## What "Working" Looks Like
-Selecting a scenario where an AI was asked to add a button but also silently broke an API timeout and altered a CSS grid, seeing the Concordance Ring immediately flag 62% Intent / 38% Collateral Drift with explicit impact badges, clicking "Purge Collateral Damage", and watching the code instantly reconstruct to 100% clean with the button preserved and the broken code reverted.
-
-## The POC Boundary
-- Single-screen desktop surgical workbench.
-- Deterministic Myers/LCS line and hunk diffing engine.
-- Structural symbol extractor for TypeScript, JavaScript, and CSS.
-- 4-tier classification: Authorized, Collateral Mutation, Scope Creep, Invariant Breach.
-- Real-time Surgical Splicer reconstructing clean code without collateral hunks.
-- 4 pre-loaded real-world disaster scenarios + Live Custom Input mode.
-- 1-click clean code copy and unified `.patch` export.
-
-## Later
-- VS Code / Cursor native extension.
-- Git pre-commit CLI hook (`npx scopeguard check`).
-- Multi-file directory scan.
-
-## Explicitly Cut
-- Cloud database and user logins (unnecessary bloat for a local dev tool).
-- Paid external API dependencies for core analysis (deterministic engine runs 100% offline).
+## The Core Loop (Closed-Loop Autonomous Healing)
+1. An AI coding agent opens a Merge Request on GitLab.
+2. ScopeGuard intercepts the MR diff, extracts AST symbols via Babel, and computes the **Concordance Score** (Intent Purity vs. Collateral Drift).
+3. Every mutation is classified:
+   - `AUTHORIZED` (Legitimate feature requested).
+   - `COLLATERAL_MUTATION` (Unrelated working code modified).
+   - `SCOPE_CREEP` (Unrequested bundle bloat or ghost libraries).
+   - `INVARIANT_BREACH` (Deleted error handlers, timeouts, or auth checks).
+4. **Auto-Heal:** The LCS Surgical Splicer applies inverse hunk transformations, verifying that all invariants are restored.
+5. Emits official `gl-code-quality-report.json` and updates the GitLab Merge Request automatically.

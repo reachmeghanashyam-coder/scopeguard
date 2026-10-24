@@ -1,0 +1,45 @@
+# ==============================================================================
+# GitLab Duo Agent Platform Specification: ScopeGuard Semantic Sentinel
+# Schema: https://gitlab.com/gitlab-org/gitlab/-/raw/master/doc/duo/agent-platform/schema.json
+# ==============================================================================
+
+version: "1.0"
+agent:
+  name: "scopeguard-sentinel"
+  display_name: "ScopeGuard — Autonomous Semantic Firewall & Blast Radius Controller"
+  description: "Autonomous post-code sentinel on GitLab Duo that detects silent AI collateral damage, invariant breaches, and scope drift, surgically reconstructing verified code."
+  category: "devsecops_automation"
+  runtime:
+    type: "mcp"
+    command: "node"
+    args: ["dist/mcp.js"]
+    protocol: "jsonrpc-2.0"
+
+triggers:
+  - event: "merge_request_opened"
+    action: "scopeguard_audit_flow"
+  - event: "duo_chat_slash_command"
+    commands:
+      - "/scope"
+      - "/purge"
+      - "/verify"
+
+flows:
+  scopeguard_audit_flow:
+    description: "Closed-Loop Semantic Blast Radius & Invariant Defense Flow"
+    stages:
+      - id: "stage_diff"
+        name: "Myers/LCS Line Diff Decomposition"
+        tool: "scopeguard_audit_diff"
+      - id: "stage_ast"
+        name: "Babel Structural Symbol Resolution"
+        tool: "scopeguard_audit_diff"
+      - id: "stage_invariant_check"
+        name: "Critical Safety Invariant Verification"
+        tool: "scopeguard_audit_diff"
+      - id: "stage_surgical_splice"
+        name: "LCS Surgical Remediation & Auto-Heal"
+        tool: "scopeguard_auto_heal"
+        outputs:
+          - "clean_source_code"
+          - "gl-code-quality-report.json"

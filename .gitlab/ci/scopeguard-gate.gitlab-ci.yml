@@ -1,0 +1,47 @@
+# ==============================================================================
+# ScopeGuard Native GitLab CI/CD Autonomous Gate & Healing Component
+# Include this component in any .gitlab-ci.yml with 1 line:
+#   include:
+#     - local: '.gitlab/ci/scopeguard-gate.gitlab-ci.yml'
+# ==============================================================================
+
+spec:
+  inputs:
+    stage:
+      default: test
+      description: "Pipeline stage for autonomous scope drift inspection"
+    mode:
+      default: "auto-heal"
+      description: "Execution mode: 'check' (blocking) or 'auto-heal' (creates cleaned MR)"
+
+---
+
+scopeguard:semantic-firewall:
+  stage: $[[ inputs.stage ]]
+  image: node:20-alpine
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  variables:
+    SCOPEGUARD_MODE: $[[ inputs.mode ]]
+  before_script:
+    - apk add --no-cache git
+    - npm ci
+    - npm run build
+  script:
+    - echo "🛡️ ScopeGuard Semantic Firewall Intercepting Merge Request Diff..."
+    - echo "Project=$CI_PROJECT_PATH, MR_IID=$CI_MERGE_REQUEST_IID, Commit=$CI_COMMIT_SHA"
+    # Execute deterministic AST scan & closed-loop invariant verification
+    - node dist/cli.js --check "$CI_MERGE_REQUEST_TITLE" || (
+        echo "🚨 Collateral scope drift detected in MR! Initiating closed-loop auto-heal..." &&
+        node dist/cli.js --auto-heal "$CI_MERGE_REQUEST_TITLE" &&
+        echo "✅ Collateral mutations purged. Verified clean patch ready for merge."
+      )
+  artifacts:
+    when: always
+    paths:
+      - gl-code-quality-report.json
+      - gl-sast-report.json
+    reports:
+      codequality: gl-code-quality-report.json
+      sast: gl-sast-report.json
