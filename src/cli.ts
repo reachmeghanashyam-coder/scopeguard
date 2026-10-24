@@ -6,16 +6,20 @@ import { computeLineDiff } from './engine/differ.js';
 import { resolveEnclosingSymbols } from './engine/astScanner.js';
 import { classifyHunks } from './engine/classifier.js';
 
+import { spliceSource } from './engine/splicer.js';
+
 /**
  * ScopeGuard CLI — Deterministic Pre-Commit Code Firewall
  * Usage:
  *   npx scopeguard "Add dark mode toggle"
  *   npx scopeguard --check
+ *   npx scopeguard --auto-heal
  *   npx scopeguard --install-hook
  */
 
 const args = process.argv.slice(2);
 const isCheckMode = args.includes('--check');
+const isAutoHeal = args.includes('--auto-heal');
 
 if (args.includes('--install-hook')) {
   try {
@@ -119,6 +123,16 @@ try {
     totalCollateral += (collateral.length + breaches.length + uncertain.length);
 
     console.log(`\x1b[1mFile: ${file}\x1b[0m`);
+    // Auto-Heal: Surgically purge unapproved mutations and restore clean source
+    if (isAutoHeal && afterCode && beforeCode) {
+      const healHunks = classified.map(h => ({
+        ...h,
+        accepted: h.status === 'AUTHORIZED'
+      }));
+      const healedSource = spliceSource(beforeCode, healHunks);
+      fs.writeFileSync(file, healedSource, 'utf-8');
+      console.log(`  \x1b[36m🛡️ [AUTO-HEALED]\x1b[0m Surgically purged collateral drift in ${file}`);
+    }
     classified.forEach((hunk) => {
       const symbol = hunk.enclosingSymbol || 'global scope';
       if (hunk.status === 'AUTHORIZED') {
