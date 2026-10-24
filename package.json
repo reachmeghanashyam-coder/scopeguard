@@ -14,10 +14,15 @@
     "scopeguard": "./dist/cli.js"
   },
   "devDependencies": {
+    "@types/babel__traverse": "^7.28.0",
     "@types/node": "^26.6.5",
     "tsx": "^4.23.15",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "@babel/parser": "^8.0.8",
+    "@babel/traverse": "^8.0.7"
   }
 }

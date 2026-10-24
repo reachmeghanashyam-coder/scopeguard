@@ -1,0 +1,48 @@
+# GitLab CI/CD Pipeline - ScopeGuard Autonomous Merge Request Firewall
+# Integrated with GitLab Duo Agent Platform (Life After Code Track)
+
+stages:
+  - test
+  - duo_workflow
+  - deploy
+
+variables:
+  NODE_ENV: "production"
+
+# Standard Test Suite Verification
+unit_tests:
+  stage: test
+  image: node:20-alpine
+  script:
+    - npm ci
+    - npm test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+# GitLab Duo Workflow: Intercepts AI-generated Merge Requests and runs AST Firewall
+duo_ast_firewall:
+  stage: duo_workflow
+  image: node:20-alpine
+  script:
+    - npm ci
+    - npm run build
+    - echo "🛡️ Running ScopeGuard Duo Flow on Merge Request Diff..."
+    - node dist/cli.js --check "Audit GitLab Duo Agent code proposals"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "duo_workflow"'
+    - if: '$CI_MERGE_REQUEST_IID'
+
+# Production Live Web Cockpit Deployment (Cloud Run / Vercel Trigger)
+pages:
+  stage: deploy
+  image: node:20-alpine
+  script:
+    - npm ci
+    - npm run build
+    - mv dist public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'

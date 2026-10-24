@@ -4,6 +4,7 @@ import { classifyHunks } from './engine/classifier.js';
 import { spliceSource } from './engine/splicer.js';
 import { SCENARIOS } from './scenarios.js';
 import { DiffHunk, Scenario } from './types.js';
+import { playPurgeSuccessChime } from './audio.js';
 
 // Application State
 let activeScenario: Scenario = SCENARIOS[0];
@@ -361,6 +362,7 @@ if (purgeAllBtn) {
     updateTelemetry();
     renderHunkCards();
     updateInspector();
+    playPurgeSuccessChime();
   });
 }
 
@@ -512,3 +514,4 @@ if (copyHookBtn) {
 
 // Initial Initialization
 renderStage();
+

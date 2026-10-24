@@ -1,0 +1,28 @@
+# GitLab Duo Agent Platform - Custom Flow Configuration
+# Specification: ScopeGuard Autonomous AST Merge Request Firewall
+# Hackathon: GitLab Transcend - Life After Code
+
+image: node:20-alpine
+
+setup_script:
+  - npm ci
+  - npm run build
+
+# Execution network policy for the Duo Flow container
+network_policy:
+  include_recommended_allowed: true
+  allowed_domains:
+    - "gitlab.com"
+    - "registry.npmjs.org"
+  denied_domains:
+    - "telemetry.evil.com"
+  allow_all_unix_sockets: false
+
+cache:
+  paths:
+    - node_modules/
+    - dist/
+  key:
+    files:
+      - package-lock.json
+    prefix: "scopeguard-duo"
