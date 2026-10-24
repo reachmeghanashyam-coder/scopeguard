@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && tsc src/cli.ts --outDir dist --moduleResolution node --target ES2020 --module ESNext",
+    "build": "tsc && vite build && tsc src/cli.ts src/mcp.ts --outDir dist --moduleResolution node --target ES2020 --module ESNext",
     "preview": "vite preview",
     "test": "vitest run",
-    "audit": "tsx src/cli.ts"
+    "audit": "tsx src/cli.ts",
+    "mcp": "node dist/mcp.js"
   },
   "bin": {
-    "scopeguard": "./dist/cli.js"
+    "scopeguard": "./dist/cli.js",
+    "scopeguard-mcp": "./dist/mcp.js"
   },
   "devDependencies": {
     "@types/babel__traverse": "^7.28.0",

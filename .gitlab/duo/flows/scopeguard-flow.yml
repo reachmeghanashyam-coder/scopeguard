@@ -1,0 +1,82 @@
+# Flow Registry v1 Specification: ScopeGuard Autonomous DevSecOps Sentinel
+# Integrated with GitLab Duo Agent Platform (Life After Code Track)
+# Documentation: docs.gitlab.com/user/duo_agent_platform/flows/custom/
+
+version: "v1"
+environment: ambient
+coding_environment: none
+
+components:
+  - name: "scopeguard_ast_firewall"
+    type: AgentComponent
+    prompt_id: "scopeguard_review_prompt"
+    inputs:
+      - from: "context:project_id"
+        as: "project_id"
+      - from: "context:goal"
+        as: "mr_iid"
+    toolset:
+      - get_merge_request
+      - get_merge_request_diff
+      - create_merge_request_note
+    ui_log_events:
+      - on_agent_final_answer
+      - on_tool_execution_success
+      - on_tool_execution_failed
+
+  - name: "scopeguard_auto_heal"
+    type: AgentComponent
+    prompt_id: "scopeguard_auto_heal_prompt"
+    inputs:
+      - from: "context:project_id"
+        as: "project_id"
+      - from: "context:goal"
+        as: "mr_iid"
+    toolset:
+      - get_merge_request_diff
+      - create_merge_request_note
+    ui_log_events:
+      - on_agent_final_answer
+      - on_tool_execution_success
+
+prompts:
+  - prompt_id: "scopeguard_review_prompt"
+    name: "ScopeGuard AST Merge Request Sentinel"
+    prompt_template:
+      system: |
+        You are the ScopeGuard Autonomous Sentinel running on the GitLab Duo Agent Platform.
+        Your mission is to protect project ID {{project_id}} from silent AI code regressions and invariant breaches in Merge Request !{{mr_iid}}.
+
+        Execution Protocol:
+        1. Fetch the Merge Request details and full diff using get_merge_request and get_merge_request_diff.
+        2. Execute the Babel AST scope analysis and LCS diff classifier.
+        3. Identify all hunks: AUTHORIZED, INVARIANT_BREACH, COLLATERAL_MUTATION, or SCOPE_CREEP.
+        4. If breaches or unapproved collateral edits exist, post an interactive ScopeGuard review note on the MR.
+        5. If critical safety invariants (try/catch, auth, timeouts, sanitization) are violated, route execution to scopeguard_auto_heal.
+
+      user: |
+        Goal: Verify MR !{{mr_iid}} against prompt specification and security invariants.
+
+  - prompt_id: "scopeguard_auto_heal_prompt"
+    name: "ScopeGuard Closed-Loop Autonomous Healer"
+    prompt_template:
+      system: |
+        You are the ScopeGuard Autonomous Healing Engine running on GitLab Duo Agent Platform.
+        Your goal is to perform non-destructive LCS surgical splicing to restore broken invariants in MR !{{mr_iid}}.
+
+        1. Isolate the toxic diff hunks (INVARIANT_BREACH / COLLATERAL_MUTATION).
+        2. Retain all AUTHORIZED hunks with byte-for-byte fidelity.
+        3. Generate the clean unified patch.
+        4. Post the verified remediation patch and trigger instructions directly to the MR discussion thread.
+
+      user: |
+        Goal: Autonomously heal collateral regressions detected in MR !{{mr_iid}}.
+
+routers:
+  - from: "scopeguard_ast_firewall"
+    to: "scopeguard_auto_heal"
+  - from: "scopeguard_auto_heal"
+    to: "end"
+
+flow:
+  entry_point: "scopeguard_ast_firewall"
