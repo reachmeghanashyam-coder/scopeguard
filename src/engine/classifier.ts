@@ -67,16 +67,20 @@ export function classifyHunks(prompt: string, hunks: DiffHunk[]): DiffHunk[] {
     const addedWords = addedText.split(/[^a-z0-9_-]+/).filter(Boolean);
     const deletedWords = deletedText.split(/[^a-z0-9_-]+/).filter(Boolean);
 
-    // Check if the prompt explicitly asked to delete THIS specific item (target matching)
+    // Check if the prompt explicitly asked to delete/modify THIS specific item (target matching)
     const hasTargetedDeletionIntent = promptTokens.some(t => deletedWords.includes(t) || symbolWords.includes(t));
+
+    // Check if the change is a value replacement/upgrade rather than a pure stripping
+    const isValueReplacement = addedText.includes('timeout') && deletedText.includes('timeout');
+    const isStorageMigration = addedText.includes('localstorage') && deletedText.includes('sessionstorage');
 
     const deletedCriticalSafety =
       deletedText.includes('try {') ||
       deletedText.includes('catch') ||
-      deletedText.includes('timeout') ||
+      (deletedText.includes('timeout') && !isValueReplacement) ||
       deletedText.includes('retries') ||
-      (deletedText.includes('if (!') && !addedText.includes('if (!')) ||
-      ((deletedText.includes('auth') || deletedText.includes('session') || deletedText.includes('guard')) && (!hasExplicitDeletionIntent || !hasTargetedDeletionIntent)) ||
+      (deletedText.includes('if (!') && !addedText.includes('if (!') && (!hasExplicitDeletionIntent || !hasTargetedDeletionIntent)) ||
+      ((deletedText.includes('auth') || (deletedText.includes('session') && !isStorageMigration) || deletedText.includes('guard')) && (!hasExplicitDeletionIntent || !hasTargetedDeletionIntent)) ||
       (deletedText.includes('throw new') && !addedText.includes('throw new')) ||
       (deletedText.includes('security') && (!hasExplicitDeletionIntent || !hasTargetedDeletionIntent)) ||
       (deletedText.includes('validate') && !addedText.includes('validate') && (!hasExplicitDeletionIntent || !hasTargetedDeletionIntent));

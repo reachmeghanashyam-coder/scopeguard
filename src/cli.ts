@@ -46,6 +46,14 @@ console.log('\x1b[90mDeterministic line diffing & lexical security invariant heu
 console.log(`\x1b[90mPrompt Context:\x1b[0m "${promptArg}"\n`);
 
 try {
+  // 0. Verify we are inside a Git repository before attempting diffs
+  try {
+    execSync('git rev-parse --is-inside-work-tree', { stdio: 'pipe' });
+  } catch {
+    console.error('\n\x1b[33mNote: Run inside a Git repository with uncommitted changes to inspect live code.\x1b[0m\n');
+    process.exit(isCheckMode ? 1 : 0);
+  }
+
   // In check mode (pre-commit), inspect staged changes first; otherwise uncommitted working tree
   let diffCmd = 'git diff HEAD';
   let nameOnlyCmd = 'git diff --name-only HEAD';
@@ -91,11 +99,13 @@ try {
     try {
       afterCode = fs.readFileSync(file, 'utf-8');
     } catch {
-      continue;
+      // File was deleted from working directory or staged for deletion!
+      // Do NOT silently skip, because deleting security or critical logic is an invariant breach!
+      afterCode = '';
     }
 
     const rawHunks = computeLineDiff(beforeCode, afterCode);
-    const resolved = resolveEnclosingSymbols(afterCode, rawHunks);
+    const resolved = resolveEnclosingSymbols(afterCode || beforeCode, rawHunks);
     const classified = classifyHunks(promptArg, resolved);
 
     const authorized = classified.filter(h => h.status === 'AUTHORIZED');
