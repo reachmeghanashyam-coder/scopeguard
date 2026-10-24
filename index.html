@@ -16,6 +16,10 @@
         <span class="status-dot"></span>
         <span class="brand-text">SCOPEGUARD</span>
       </div>
+      <button class="nav-install-btn" id="open-install-modal-btn">
+        <span class="install-bolt">⚡</span>
+        <span>Add to Cursor / VS Code</span>
+      </button>
     </header>
 
     <!-- Oversized Hero Section (Relayeo Style) -->
@@ -45,6 +49,11 @@
           <span>Run Simulation</span>
           <span class="arrow-icon">→</span>
         </button>
+      </div>
+
+      <!-- Subtle Apple-Style Custom Audit Link -->
+      <div class="bento-secondary-action">
+        <button class="custom-audit-link" id="launch-custom-btn">or audit your own code diff ↗</button>
       </div>
     </div>
   </div>
@@ -171,6 +180,42 @@
       </div>
       <div class="modal-footer">
         <button class="action-btn primary" id="run-custom-audit-btn">RUN DETERMINISTIC AUDIT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Workspace Install Modal (Cursor / VS Code / Git) -->
+  <div class="modal-backdrop" id="install-modal">
+    <div class="modal-window install-modal-window">
+      <div class="modal-header">
+        <span>ADD TO CURSOR & VS CODE WORKSPACE</span>
+        <button class="close-btn" id="close-install-modal-btn">✕</button>
+      </div>
+      <div class="modal-body install-body">
+        <p class="install-lead">Intercept and purge silent collateral code mutations right inside your editor before committing to Git.</p>
+
+        <div class="install-step">
+          <div class="step-badge">1. Zero-Install Instant Audit</div>
+          <p class="step-desc">Whenever Cursor, Claude, or Copilot edits your code, run this 1-line command in your project terminal with your prompt:</p>
+          <div class="code-pill-row">
+            <code class="install-cmd">npx scopeguard "Add dark mode toggle to header"</code>
+            <button class="copy-cmd-btn" id="copy-npx-btn">Copy</button>
+          </div>
+        </div>
+
+        <div class="install-step">
+          <div class="step-badge">2. What Happens Automatically</div>
+          <p class="step-desc">ScopeGuard diffs your uncommitted Git working tree against HEAD, isolates unrequested collateral deletions or style mutations, and automatically pops open your local <strong>Surgical Workbench</strong> in your browser to purge threats with 1 click.</p>
+        </div>
+
+        <div class="install-step">
+          <div class="step-badge">3. Optional: Automatic Git Pre-Commit Guard</div>
+          <p class="step-desc">Block silent AI regressions from ever reaching your GitHub repo by staging ScopeGuard in your git hooks:</p>
+          <div class="code-pill-row">
+            <code class="install-cmd">npx scopeguard --install-hook</code>
+            <button class="copy-cmd-btn" id="copy-hook-btn">Copy</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

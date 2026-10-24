@@ -105,9 +105,15 @@ function updateTelemetry() {
   // Dynamically update master purge button state
   if (purgeAllBtn) {
     const hasActiveCollateral = collateralHunks.some(h => h.accepted);
+    const hasUncertain = activeHunks.some(h => h.status === 'UNCERTAIN');
     if (!hasActiveCollateral && collateralHunks.length > 0) {
-      purgeAllBtn.innerHTML = '✓ ALL COLLATERAL EDITS PURGED';
-      purgeAllBtn.classList.add('purged-success');
+      if (hasUncertain) {
+        purgeAllBtn.innerHTML = '⚠️ PURGED • MANUAL REVIEW REQUIRED';
+        purgeAllBtn.classList.remove('purged-success');
+      } else {
+        purgeAllBtn.innerHTML = '✓ ALL COLLATERAL EDITS PURGED';
+        purgeAllBtn.classList.add('purged-success');
+      }
     } else {
       purgeAllBtn.innerHTML = 'PURGE COLLATERAL EDITS';
       purgeAllBtn.classList.remove('purged-success');
@@ -160,6 +166,10 @@ function renderHunkCards() {
       statusClass = 'status-collateral';
       badgeClass = 'badge-collateral';
       badgeText = 'SCOPE CREEP';
+    } else if (hunk.status === 'UNCERTAIN') {
+      statusClass = 'status-uncertain';
+      badgeClass = 'badge-uncertain';
+      badgeText = 'UNCERTAIN';
     }
 
     const isCollateral = hunk.status !== 'AUTHORIZED';
@@ -460,6 +470,43 @@ if (runCustomAuditBtn && customModal) {
     customModal.classList.remove('open');
     activeScenario = customScenario;
     openWorkbench();
+  });
+}
+
+// Workspace Install Modal Listeners
+const openInstallModalBtn = document.getElementById('open-install-modal-btn') as HTMLButtonElement | null;
+const installModal = document.getElementById('install-modal') as HTMLElement | null;
+const closeInstallModalBtn = document.getElementById('close-install-modal-btn') as HTMLButtonElement | null;
+const copyNpxBtn = document.getElementById('copy-npx-btn') as HTMLButtonElement | null;
+const copyHookBtn = document.getElementById('copy-hook-btn') as HTMLButtonElement | null;
+
+if (openInstallModalBtn && installModal) {
+  openInstallModalBtn.addEventListener('click', () => {
+    installModal.classList.add('open');
+  });
+}
+
+if (closeInstallModalBtn && installModal) {
+  closeInstallModalBtn.addEventListener('click', () => {
+    installModal.classList.remove('open');
+  });
+}
+
+if (copyNpxBtn) {
+  copyNpxBtn.addEventListener('click', async () => {
+    await navigator.clipboard.writeText('npx scopeguard "Add feature description"');
+    const orig = copyNpxBtn.textContent;
+    copyNpxBtn.textContent = '✓ Copied!';
+    setTimeout(() => { copyNpxBtn.textContent = orig; }, 1800);
+  });
+}
+
+if (copyHookBtn) {
+  copyHookBtn.addEventListener('click', async () => {
+    await navigator.clipboard.writeText('npx scopeguard --install-hook');
+    const orig = copyHookBtn.textContent;
+    copyHookBtn.textContent = '✓ Copied!';
+    setTimeout(() => { copyHookBtn.textContent = orig; }, 1800);
   });
 }
 

@@ -115,26 +115,106 @@
 
     <div class="card">
       <h2>Deterministic Execution Pipeline</h2>
+      <div style="margin-bottom: 20px;">
+        <svg viewBox="0 0 800 160" width="100%" height="auto" style="border-radius: 12px; background: #08090D; border: 1px solid var(--border);">
+          <!-- Nodes -->
+          <rect x="20" y="55" width="130" height="50" rx="8" fill="#0D0F16" stroke="#00E5FF" stroke-width="1.5" />
+          <text x="85" y="78" fill="#FFF" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">Myers Differ</text>
+          <text x="85" y="94" fill="#00E5FF" font-size="9" text-anchor="middle" font-family="monospace">differ.ts</text>
+
+          <path d="M 150 80 L 190 80" stroke="#00E5FF" stroke-width="2" marker-end="url(#arrow)" />
+
+          <rect x="190" y="55" width="140" height="50" rx="8" fill="#0D0F16" stroke="#00E5FF" stroke-width="1.5" />
+          <text x="260" y="78" fill="#FFF" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">Symbol Scanner</text>
+          <text x="260" y="94" fill="#00E5FF" font-size="9" text-anchor="middle" font-family="monospace">astScanner.ts</text>
+
+          <path d="M 330 80 L 370 80" stroke="#00E5FF" stroke-width="2" />
+
+          <rect x="370" y="55" width="130" height="50" rx="8" fill="#0D0F16" stroke="#FF9500" stroke-width="1.5" />
+          <text x="435" y="78" fill="#FFF" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">Classifier</text>
+          <text x="435" y="94" fill="#FF9500" font-size="9" text-anchor="middle" font-family="monospace">classifier.ts</text>
+
+          <path d="M 500 80 L 540 80" stroke="#FF9500" stroke-width="2" />
+
+          <rect x="540" y="55" width="110" height="50" rx="8" fill="#0D0F16" stroke="#30D158" stroke-width="1.5" />
+          <text x="595" y="78" fill="#FFF" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">Purge Engine</text>
+          <text x="595" y="94" fill="#30D158" font-size="9" text-anchor="middle" font-family="monospace">main.ts</text>
+
+          <path d="M 650 80 L 685 80" stroke="#30D158" stroke-width="2" />
+
+          <rect x="685" y="55" width="95" height="50" rx="8" fill="#0D0F16" stroke="#30D158" stroke-width="1.5" />
+          <text x="732" y="78" fill="#FFF" font-size="11" font-weight="700" text-anchor="middle" font-family="sans-serif">Splicer</text>
+          <text x="732" y="94" fill="#30D158" font-size="9" text-anchor="middle" font-family="monospace">splicer.ts</text>
+        </svg>
+      </div>
+
       <div class="flow-tree">
 Original Code + AI Proposed Code + Developer Prompt
         │
         ▼
-[1] computeLineDiff()          ──▶ Myers / LCS Line & Hunk Extraction
+[1] computeLineDiff()          ──▶ Myers / LCS Line & Hunk Extraction (src/engine/differ.ts)
         │
         ▼
-[2] resolveEnclosingSymbols()   ──▶ Lexical Enclosing Symbol Resolution
+[2] resolveEnclosingSymbols()   ──▶ Lexical Enclosing Symbol Resolution (src/engine/astScanner.ts)
         │
         ▼
-[3] classifyHunks()             ──▶ Scope Guardrail & Intent Verification
+[3] classifyHunks()             ──▶ Scope Guardrail & Intent Verification (src/engine/classifier.ts)
         │
         ▼
-[4] Concordance Ring Telemetry  ──▶ Purity Score & Collateral Radar Readouts
+[4] Concordance Ring Telemetry  ──▶ Purity Score & Collateral Radar Readouts (src/main.ts)
         │
         ▼
-[5] Surgical Remediation        ──▶ Master "Purge Collateral" / Per-Hunk Toggle
+[5] Surgical Remediation        ──▶ Master "Purge Collateral" / Per-Hunk Toggle (src/main.ts)
         │
         ▼
-[6] spliceSource()              ──▶ Reconstructed Clean Code & Unified .patch Export
+[6] spliceSource()              ──▶ Reconstructed Clean Code & Unified .patch Export (src/engine/splicer.ts)
+      </div>
+    </div>
+
+    <!-- Required Section 1: To Change This, Start Here -->
+    <div class="card">
+      <h2>To Change This, Start Here</h2>
+      <div class="grid">
+        <div class="stop">
+          <div class="stop-num">Adding Simulation Scenarios</div>
+          <div class="stop-title"><code>src/scenarios.ts</code></div>
+          <div class="stop-desc">Add a new object to the <code>SCENARIOS</code> array defining <code>id</code>, <code>title</code>, <code>tag</code>, <code>prompt</code>, <code>beforeCode</code>, and <code>aiCode</code>. The launchpad Bento grid and workbench deck automatically adapt.</div>
+        </div>
+        <div class="stop">
+          <div class="stop-num">Tuning Guardrail Classifications</div>
+          <div class="stop-title"><code>src/engine/classifier.ts</code></div>
+          <div class="stop-desc">Modify the heuristic rules in <code>classifyHunks()</code> to introduce new classifications or refine what constitutes a scope violation vs. authorized modification.</div>
+        </div>
+        <div class="stop">
+          <div class="stop-num">Adjusting Telemetry & Purge Logic</div>
+          <div class="stop-title"><code>src/main.ts</code></div>
+          <div class="stop-desc">Update <code>recomputeTelemetry()</code> or the master <code>purgeAllBtn</code> click handler to adjust purity scoring formulas, animation timings, or hunk filtering.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Required Section 2: A Practice to Reuse -->
+    <div class="card">
+      <h2>A Practice to Reuse</h2>
+      <div class="stop" style="background: rgba(0, 229, 255, 0.04); border-color: rgba(0, 229, 255, 0.2);">
+        <div class="stop-title" style="color: var(--cyan);">Deterministic AST Verification Over Secondary LLM Inferences</div>
+        <div class="stop-desc" style="color: #E1E1E6; margin-top: 8px;">
+          When building safety and compliance layers for generative AI, resist the temptation to call another LLM to verify the first LLM's output. Second-order LLM calls introduce network latency, nondeterministic hallucinations, and API bill shock. 
+          <br><br>
+          ScopeGuard demonstrates the architectural pattern of <strong>Deterministic Guardrails</strong>: use dynamic programming (Myers LCS differ) and lightweight lexical AST grammar parsers to extract mathematical truths about code mutations in under 2 milliseconds, client-side, with zero external dependencies.
+        </div>
+      </div>
+    </div>
+
+    <!-- Required Section 3: How to Run + Source Commit Hash -->
+    <div class="card" style="border-color: rgba(255, 255, 255, 0.08); font-size: 13px; color: var(--muted);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <strong style="color: #FFF;">Reproducibility:</strong> Run <code>npm install && npm run dev</code> for local server (port 5173), or <code>npm test</code> to run the automated Vitest suite.
+        </div>
+        <div>
+          <strong style="color: #FFF;">Source Commit:</strong> <code style="color: var(--cyan); background: rgba(0,229,255,0.08);">master @ e354509</code>
+        </div>
       </div>
     </div>
   </div>

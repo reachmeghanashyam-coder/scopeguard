@@ -20,16 +20,17 @@ Source: `scope.md > The Unique Kernel`
 6. **Custom Audit:** The developer clicks "Custom Audit" to paste their own prompt, before code, and after code, getting instant deterministic analysis.
 
 ## Screens and Layout
-A unified single-screen surgical workbench:
-- **Top Telemetry Header:**
-  - Wordmark: `SCOPEGUARD // AI CODE FIREWALL`
-  - High-precision SVG **Concordance Ring** with Intent Purity % vs. Drift %.
-  - Metric Pills: `Authorized (1)`, `Collateral (2)`, `Lines Protected (18)`.
-  - Scenario Selector Pills: `1. CSS Sabotage`, `2. API Regression`, `3. Ghost Dependency`, `4. Custom Input`.
-- **Main 3-Pane Workbench:**
-  - **Left Pane (Intent & Scope Guardrails):** Prompt card, target symbols, and scope locks.
-  - **Center Pane (Silent Regression Radar & Hunk Cards):** Interactive cards for each change hunk with classification badges, line ranges, impact explanation, and [Keep / Purge] toggles.
-  - **Right Pane (Code Inspector & Spliced Output):** 3-tab view: `Clean Spliced Code` | `Side-by-Side Diff` | `Raw AI Output` with 1-click Copy and Download Patch buttons.
+A focused 2-stage surgical experience:
+- **View 1: Bento Launchpad (Hero & Staging Stage):**
+  - Minimal top brand pill: `SCOPEGUARD` with live status indicator.
+  - Oversized high-impact hero: `Code with AI. Ship with certainty.`
+  - Apple Frosted Glass Bento Stage Chassis showcasing 3 real-world collateral disaster targets (`CSS / UI`, `API / TYPES`, `AUTH / LOGIC`) with category badges and micro-prompt glass pods.
+  - High-impact gradient `[ Run Simulation → ]` button with subtle `or audit your own code diff ↗` trigger for custom inputs.
+- **View 2: Surgical Results Workbench:**
+  - Dedicated top navigation bar with `[ ← Back to Scenarios ]` pill and active scenario indicator.
+  - High-precision SVG **Concordance Ring** (purity telemetry gauge) displaying Intent Purity % vs. Threat state, metric counts, and master `PURGE COLLATERAL EDITS` action.
+  - **Left Pane (Silent Regression Radar):** Contiguous hunk cards with authorized vs. collateral badges, impact analysis, code line ranges, and instant purge/undo buttons.
+  - **Right Pane (Surgical Code Inspector):** Toggle between `CLEAN CODE` and `RAW AI` with 1-click clipboard copy and unified `.patch` export.
 
 ## Look and Feel
 - **Visual Direction:** Apple Xcode Instruments meets Apple Watch Activity Rings.
@@ -49,8 +50,10 @@ A unified single-screen surgical workbench:
 - Identifies the exact structural symbol enclosing each diff hunk.
 
 ### Intent & Scope Classifier
-- Categorizes hunks as `AUTHORIZED`, `COLLATERAL_MUTATION`, `SCOPE_CREEP`, or `INVARIANT_BREACH`.
-- Generates plain-English impact summaries explaining the real-world consequence of collateral edits.
+- Dynamically extracts meaningful keyword tokens and stems from arbitrary user prompts, filtering common filler stop-words.
+- Evaluates token overlap between prompt intent and enclosing AST symbols / added lines to classify hunks as `AUTHORIZED`, `COLLATERAL_MUTATION`, `SCOPE_CREEP`, or `INVARIANT_BREACH`.
+- Enforces critical safety invariants: flags any unrequested deletion of `try/catch` error handlers, authentication checks, timeouts, or retries.
+- Generates plain-English impact summaries explaining the real-world consequence of collateral edits across 100+ unscripted scenarios.
 
 ### Surgical Splicer
 - Reconstructs clean source code by applying only authorized/accepted hunks onto the original base.

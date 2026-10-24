@@ -60,4 +60,44 @@ function handleCheckout() {
     expect(resolved[0].enclosingSymbol).toContain('handleCheckout');
     expect(resolved[1].enclosingSymbol).toContain('.dashboard-grid');
   });
+
+  it('dynamically tokenizes arbitrary prompts and catches unrequested collateral damage', async () => {
+    const { classifyHunks } = await import('../src/engine/classifier.js');
+    
+    // Arbitrary unscripted prompt: "Please add a circular user avatar badge to the header"
+    const prompt = 'Please add a circular user avatar badge to the header';
+    
+    const hunks = [
+      {
+        id: 'hunk-a',
+        beforeStartLine: 5,
+        beforeLineCount: 0,
+        afterStartLine: 5,
+        afterLineCount: 3,
+        deletedLines: [],
+        addedLines: ['<div class="user-avatar-badge"><img src={avatarUrl} /></div>'],
+        enclosingSymbol: 'function Header()',
+        status: 'AUTHORIZED' as const,
+        impactSummary: '',
+        accepted: true
+      },
+      {
+        id: 'hunk-b',
+        beforeStartLine: 20,
+        beforeLineCount: 2,
+        afterStartLine: 23,
+        afterLineCount: 1,
+        deletedLines: ['export function deleteUserAccount(id: string) {', '  return db.delete(id);'],
+        addedLines: ['// deleted by accident'],
+        enclosingSymbol: 'function deleteUserAccount()',
+        status: 'COLLATERAL_MUTATION' as const,
+        impactSummary: '',
+        accepted: false
+      }
+    ];
+
+    const results = classifyHunks(prompt, hunks);
+    expect(results[0].status).toBe('AUTHORIZED');
+    expect(results[1].status).toBe('COLLATERAL_MUTATION');
+  });
 });

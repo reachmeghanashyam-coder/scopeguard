@@ -7,9 +7,15 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "audit": "tsx src/cli.ts"
+  },
+  "bin": {
+    "scopeguard": "./dist/cli.js"
   },
   "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vitest": "^1.6.0"

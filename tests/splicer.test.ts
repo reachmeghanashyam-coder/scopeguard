@@ -43,4 +43,64 @@ describe('ScopeGuard Intent Classification & Surgical Splicing', () => {
     expect(breach.length).toBeGreaterThan(0);
     expect(breach[0].impactSummary).toContain('error handling');
   });
+
+  it('safely sorts out-of-order hunks and ignores invalid negative line coordinates', () => {
+    const original = 'line 1\nline 2\nline 3\nline 4';
+    const disorderedHunks = [
+      {
+        id: 'hunk-3',
+        beforeStartLine: 4,
+        beforeLineCount: 1,
+        afterStartLine: 4,
+        afterLineCount: 1,
+        deletedLines: ['line 4'],
+        addedLines: ['line 4 MODIFIED'],
+        enclosingSymbol: 'Unknown',
+        status: 'AUTHORIZED' as const,
+        impactSummary: '',
+        accepted: true
+      },
+      {
+        id: 'hunk-corrupt',
+        beforeStartLine: -5,
+        beforeLineCount: 1,
+        afterStartLine: -5,
+        afterLineCount: 1,
+        deletedLines: ['corrupt'],
+        addedLines: ['corrupt'],
+        enclosingSymbol: 'Corrupt',
+        status: 'UNCERTAIN' as const,
+        impactSummary: 'Corrupt',
+        accepted: true
+      },
+      {
+        id: 'hunk-1',
+        beforeStartLine: 2,
+        beforeLineCount: 1,
+        afterStartLine: 2,
+        afterLineCount: 1,
+        deletedLines: ['line 2'],
+        addedLines: ['line 2 MODIFIED'],
+        enclosingSymbol: 'Unknown',
+        status: 'AUTHORIZED' as const,
+        impactSummary: '',
+        accepted: true
+      }
+    ];
+
+    const result = spliceSource(original, disorderedHunks);
+    expect(result).toBe('line 1\nline 2 MODIFIED\nline 3\nline 4 MODIFIED');
+  });
+
+  it('rejecting all hunks perfectly restores original source byte-for-byte', () => {
+    const original = 'function calculate() {\n  return 42;\n}';
+    const modified = 'function calculate() {\n  // rewrote everything\n  return 999;\n}';
+    const hunks = computeLineDiff(original, modified);
+    
+    // Reject all hunks
+    const rejectedHunks = hunks.map(h => ({ ...h, accepted: false }));
+    const restored = spliceSource(original, rejectedHunks);
+    expect(restored).toBe(original);
+  });
 });
+

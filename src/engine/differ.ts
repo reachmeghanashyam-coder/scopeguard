@@ -1,8 +1,18 @@
 import { DiffHunk } from '../types.js';
 
 export function computeLineDiff(beforeText: string, afterText: string): DiffHunk[] {
-  const beforeLines = beforeText.split('\n');
-  const afterLines = afterText.split('\n');
+  // Normalize line endings (\r\n -> \n) to prevent CRLF corruption
+  const normBefore = beforeText.replace(/\r\n/g, '\n');
+  const normAfter = afterText.replace(/\r\n/g, '\n');
+
+  // Negative Case: Identical inputs have 0 diff hunks
+  if (normBefore === normAfter) {
+    return [];
+  }
+
+  // Handle empty inputs cleanly
+  const beforeLines = normBefore === '' ? [] : normBefore.split('\n');
+  const afterLines = normAfter === '' ? [] : normAfter.split('\n');
 
   // Fast Longest Common Subsequence line diff
   const n = beforeLines.length;
@@ -32,7 +42,7 @@ export function computeLineDiff(beforeText: string, afterText: string): DiffHunk
       i--;
       j--;
     } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
-      edits.unshift({ type: 'add', line: afterLines[j - 1], bIdx: i, aIdx: j });
+      edits.unshift({ type: 'add', line: afterLines[j - 1], bIdx: i + 1, aIdx: j });
       j--;
     } else if (i > 0 && (j === 0 || dp[i][j - 1] < dp[i - 1][j])) {
       edits.unshift({ type: 'del', line: beforeLines[i - 1], bIdx: i, aIdx: j });

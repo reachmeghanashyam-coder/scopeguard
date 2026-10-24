@@ -13,12 +13,13 @@ ScopeGuard executes a 4-stage deterministic analysis pipeline:
 4. The **Surgical Splicer** recalculates the clean output text by applying only the hunks marked `KEEP` on top of the original base text, updating the **Concordance Ring** and diff viewer instantaneously.
 
 ## The Core Journey Through the System
-1. `index.html` loads Vite bundle → ScopeGuard initializes with Scenario 1 data.
-2. `engine/differ.ts` parses the 3 hunks → `engine/classifier.ts` assigns statuses.
-3. UI renders the Concordance Ring at 64% purity, 3 Hunk Cards, and Spliced Code.
-4. User clicks **"Purge Collateral Edits"** → Hunks 2 & 3 toggle to `REJECT`.
-5. `engine/splicer.ts` reconstructs clean code → Concordance Ring animates to 100%.
-6. User clicks **"Copy Clean Code"** → Clean code copied to clipboard via `navigator.clipboard`.
+1. `index.html` loads Vite bundle → ScopeGuard presents View 1 (Bento Launchpad) with 3 real-world simulation targets staged.
+2. User selects a target (e.g. "CSS Layout Sabotage") and clicks **Run Simulation →** → View switches smoothly to View 2 (Surgical Results Workbench).
+3. `engine/differ.ts` extracts Myers line hunks → `engine/astScanner.ts` resolves enclosing symbols → `engine/classifier.ts` flags collateral mutations.
+4. UI renders initial threat state: Concordance Ring at 50% with amber warning ring, master `PURGE COLLATERAL EDITS` button, and red threat hunk cards.
+5. User clicks **"PURGE COLLATERAL EDITS"** → All collateral hunks toggle to rejected state.
+6. `engine/splicer.ts` reconstructs clean code in real time → Concordance Ring animates to 100% pure green, master button displays persistent `✓ ALL COLLATERAL EDITS PURGED`, and clean code displays in inspector.
+7. User copies clean code via clipboard or clicks **"Download .patch ↓"** to export a standard unified patch.
 PRD ref: `prd.md > The Core Journey`.
 
 ## Stack

@@ -2,7 +2,8 @@ export type HunkClassification =
   | 'AUTHORIZED'
   | 'COLLATERAL_MUTATION'
   | 'SCOPE_CREEP'
-  | 'INVARIANT_BREACH';
+  | 'INVARIANT_BREACH'
+  | 'UNCERTAIN';
 
 export interface DiffHunk {
   id: string;

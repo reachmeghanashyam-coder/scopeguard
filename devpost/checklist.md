@@ -72,3 +72,7 @@ Activity mode: Autonomous and collaborative execution aligned with Devpost Learn
 
 ## Revisions
 
+- **Revision 1 (Navigation Architecture):** Evolved from an initial crowded single-screen layout into a clean 2-stage experience: (1) An oversized Relayeo-style Hero + Frosted Glass Bento Launchpad for zero-friction scenario staging, and (2) A dedicated Surgical Results Workbench with seamless `[← Back to Scenarios]` navigation.
+- **Revision 2 (Interactive Purge Psychology):** Adjusted scenario initialization so AI diffs start in the active threat state (50% Concordance, amber warning ring, active collateral mutation hunks), enabling the user to experience the live animation from 50% threat to 100% pure protection when clicking `PURGE COLLATERAL EDITS`.
+- **Revision 3 (Curated Simulation Scenarios):** Focused the launchpad onto 3 high-impact real-world disasters (CSS Layout Sabotage, API Timeout Regression, and Auth Guard Deletion) while preserving the full in-browser Myers LCS differ for arbitrary user input via the subtle Apple-style custom code audit modal.
+- **Revision 4 (Persistent State Communication):** Enhanced the master purge button to maintain a persistent green state (`✓ ALL COLLATERAL EDITS PURGED`) after execution, reverting only when an individual hunk's `Undo Purge` is clicked, providing immediate tactile reassurance.
