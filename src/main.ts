@@ -532,6 +532,29 @@ if (copyHookBtn) {
   });
 }
 
+// 90-Second Video Modal Listeners
+const openVideoModalBtn = document.getElementById('open-video-modal-btn') as HTMLButtonElement | null;
+const videoModal = document.getElementById('video-modal') as HTMLElement | null;
+const closeVideoModalBtn = document.getElementById('close-video-modal-btn') as HTMLButtonElement | null;
+const videoFrame = document.getElementById('video-frame') as HTMLIFrameElement | null;
+
+if (openVideoModalBtn && videoModal) {
+  openVideoModalBtn.addEventListener('click', () => {
+    videoModal.classList.add('open');
+  });
+}
+
+if (closeVideoModalBtn && videoModal) {
+  closeVideoModalBtn.addEventListener('click', () => {
+    videoModal.classList.remove('open');
+    // Pause video playback on close
+    if (videoFrame) {
+      const currentSrc = videoFrame.src;
+      videoFrame.src = currentSrc;
+    }
+  });
+}
+
 // Initial Initialization
 renderStage();
 

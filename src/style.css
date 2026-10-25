@@ -88,6 +88,36 @@ body {
   color: #FFFFFF;
 }
 
+.nav-demo-btn {
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  color: var(--cyan);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  padding: 8px 16px;
+  border-radius: 99px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.15);
+}
+
+.nav-demo-btn:hover {
+  background: rgba(0, 229, 255, 0.18);
+  border-color: var(--cyan);
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.play-icon {
+  font-size: 10px;
+  color: var(--cyan);
+}
+
 .nav-install-btn {
   display: inline-flex;
   align-items: center;
