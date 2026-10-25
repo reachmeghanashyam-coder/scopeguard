@@ -544,16 +544,31 @@ if (openVideoModalBtn && videoModal) {
   });
 }
 
+const closeVideoModal = () => {
+  if (!videoModal) return;
+  videoModal.classList.remove('open');
+  if (videoFrame) {
+    const currentSrc = videoFrame.src;
+    videoFrame.src = currentSrc;
+  }
+};
+
 if (closeVideoModalBtn && videoModal) {
-  closeVideoModalBtn.addEventListener('click', () => {
-    videoModal.classList.remove('open');
-    // Pause video playback on close
-    if (videoFrame) {
-      const currentSrc = videoFrame.src;
-      videoFrame.src = currentSrc;
+  closeVideoModalBtn.addEventListener('click', closeVideoModal);
+  videoModal.addEventListener('click', (e) => {
+    if (e.target === videoModal) {
+      closeVideoModal();
     }
   });
 }
+
+// Global Escape key to dismiss any open modal
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeVideoModal();
+    if (installModal) installModal.classList.remove('open');
+  }
+});
 
 // Initial Initialization
 renderStage();
