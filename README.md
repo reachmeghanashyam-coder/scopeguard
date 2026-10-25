@@ -6,6 +6,7 @@
 [![GitLab Duo Agent Platform](https://img.shields.io/badge/GitLab-Duo_Agent_Platform-FC6D26?logo=gitlab)](https://about.gitlab.com)
 [![Model Context Protocol](https://img.shields.io/badge/Protocol-MCP_JSON--RPC-8A2BE2)](src/mcp.ts)
 [![TypeScript 5.5](https://img.shields.io/badge/TypeScript-5.5-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-000000?logo=vercel)](https://scopeguard.vercel.app)
 [![Demo Video](https://img.shields.io/badge/Demo_Video-YouTube-FF0000?logo=youtube)](https://youtu.be/Jkpl6Bx4MDU)
 [![License: MIT](https://img.shields.io/badge/License-MIT-FF9500.svg)](LICENSE)
 
