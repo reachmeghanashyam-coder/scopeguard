@@ -991,6 +991,64 @@ body {
 .hunk-card.hunk-danger-active {
   border-left: 3px solid var(--amber) !important;
   background: rgba(255, 149, 0, 0.05);
+  animation: dangerPulse 2.4s infinite ease-in-out;
+}
+
+@keyframes dangerPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(255, 149, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(255, 149, 0, 0.28);
+  }
+}
+
+/* Incinerate / Purge Shockwave */
+.hunk-card.hunk-purged {
+  animation: incinerateFlash 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes incinerateFlash {
+  0% {
+    background: rgba(48, 209, 88, 0.35);
+    transform: scale(1.015);
+  }
+  100% {
+    background: var(--panel-inner);
+    transform: scale(1);
+  }
+}
+
+/* Elastic Concordance Pod Spring */
+.concordance-pod.elastic-spring {
+  animation: podBounce 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes podBounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Laser sweep scanline across inspector */
+.panel.inspector-panel.laser-sweep::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #00E5FF, #00F5A0, transparent);
+  box-shadow: 0 0 12px #00E5FF, 0 0 24px #00F5A0;
+  animation: scanlineSweep 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+  z-index: 100;
+}
+
+@keyframes scanlineSweep {
+  0% { top: 0%; opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
 }
 
 .purged-tag {

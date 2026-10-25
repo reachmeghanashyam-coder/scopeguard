@@ -5,6 +5,7 @@ import { spliceSource } from './engine/splicer.js';
 import { SCENARIOS } from './scenarios.js';
 import { DiffHunk, Scenario } from './types.js';
 import { playPurgeSuccessChime } from './audio.js';
+import { spawnPurgeParticles } from './particles.js';
 
 // Application State
 let activeScenario: Scenario = SCENARIOS[0];
@@ -362,7 +363,26 @@ if (purgeAllBtn) {
     updateTelemetry();
     renderHunkCards();
     updateInspector();
+
+    // Tactile sensory dopamine feedback: Sub-bass + harmonic chime + particle explosion
     playPurgeSuccessChime();
+    spawnPurgeParticles(purgeAllBtn);
+
+    // Elastic pod spring bounce
+    const concordancePod = document.querySelector('.concordance-pod');
+    if (concordancePod) {
+      concordancePod.classList.remove('elastic-spring');
+      void (concordancePod as HTMLElement).offsetWidth;
+      concordancePod.classList.add('elastic-spring');
+    }
+
+    // Laser scanline sweep across the clean code inspector
+    const inspectorPanel = document.querySelector('.panel.inspector-panel');
+    if (inspectorPanel) {
+      inspectorPanel.classList.remove('laser-sweep');
+      void (inspectorPanel as HTMLElement).offsetWidth;
+      inspectorPanel.classList.add('laser-sweep');
+    }
   });
 }
 
