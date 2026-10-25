@@ -443,58 +443,10 @@ if (downloadPatchBtn) {
   });
 }
 
-// Launchpad Simulation Scan Sequence (Kinetic Pre-Step HUD)
-const astTelemetryHud = document.getElementById('ast-telemetry-hud') as HTMLElement | null;
-const hudProgressBar = document.getElementById('hud-progress-bar') as HTMLElement | null;
-const hudTerminalLog = document.getElementById('hud-terminal-log') as HTMLElement | null;
-const hudTimer = document.getElementById('hud-timer') as HTMLElement | null;
-const btnSpinner = document.getElementById('btn-spinner') as HTMLElement | null;
-const btnRunLabel = document.getElementById('btn-run-label') as HTMLElement | null;
-const btnArrowIcon = document.getElementById('btn-arrow-icon') as HTMLElement | null;
-
+// Launchpad Event Listeners
 if (runSimulationBtn) {
   runSimulationBtn.addEventListener('click', () => {
-    // Stage the kinetic compilation scan sequence
-    runSimulationBtn.disabled = true;
-    if (btnSpinner) btnSpinner.style.display = 'inline-block';
-    if (btnArrowIcon) btnArrowIcon.style.display = 'none';
-    if (btnRunLabel) btnRunLabel.textContent = 'Executing AST Scan...';
-
-    if (astTelemetryHud) astTelemetryHud.style.display = 'flex';
-
-    const steps = [
-      { progress: 25, log: '⚡ Intercepting GitLab Duo Agent code proposal...', delay: 180 },
-      { progress: 55, log: '🔬 Traversing Babel AST scope boundaries & symbols...', delay: 380 },
-      { progress: 85, log: '🛡️ Evaluating Myers/LCS diff against prompt intent...', delay: 580 },
-      { progress: 100, log: '🚨 Invariant Breach isolated! Launching Workbench...', delay: 780 }
-    ];
-
-    const startTime = performance.now();
-    const timerInterval = setInterval(() => {
-      if (hudTimer) {
-        const elapsed = (performance.now() - startTime).toFixed(1);
-        hudTimer.textContent = `${elapsed}ms`;
-      }
-    }, 30);
-
-    steps.forEach((step, idx) => {
-      setTimeout(() => {
-        if (hudProgressBar) hudProgressBar.style.width = `${step.progress}%`;
-        if (hudTerminalLog) {
-          hudTerminalLog.innerHTML = `<div class="hud-line ${idx === steps.length - 1 ? 'success' : 'active'}">› ${step.log}</div>`;
-        }
-      }, step.delay);
-    });
-
-    setTimeout(() => {
-      clearInterval(timerInterval);
-      runSimulationBtn.disabled = false;
-      if (btnSpinner) btnSpinner.style.display = 'none';
-      if (btnArrowIcon) btnArrowIcon.style.display = 'inline';
-      if (btnRunLabel) btnRunLabel.textContent = 'Run Simulation';
-      if (astTelemetryHud) astTelemetryHud.style.display = 'none';
-      openWorkbench();
-    }, 950);
+    openWorkbench();
   });
 }
 
