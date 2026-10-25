@@ -16,16 +16,6 @@
         <span class="status-dot"></span>
         <span class="brand-text">SCOPEGUARD</span>
       </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <button class="nav-demo-btn" id="open-video-modal-btn">
-          <span class="play-icon">▶</span>
-          <span>Watch 90s Reveal</span>
-        </button>
-        <button class="nav-install-btn" id="open-install-modal-btn">
-          <span class="install-bolt">⚡</span>
-          <span>Add to Cursor / VS Code</span>
-        </button>
-      </div>
     </header>
 
     <!-- Oversized Hero Section (Relayeo Style) -->
@@ -35,6 +25,17 @@
         <span class="hero-line-cyan">Ship with certainty.</span>
       </h1>
       <p class="hero-single-subtitle">Deterministic AST firewall that isolates and purges silent AI regressions in milliseconds.</p>
+      
+      <div class="hero-cta-group">
+        <button class="hero-btn-primary" id="open-video-modal-btn">
+          <span class="play-icon">▶</span>
+          <span>Watch Demo Video</span>
+        </button>
+        <button class="hero-btn-secondary" id="open-install-modal-btn">
+          <span class="install-bolt">⚡</span>
+          <span>Connect IDE & GitLab Duo</span>
+        </button>
+      </div>
     </section>
 
     <!-- Grounded Apple Glass Chassis Stage -->
@@ -195,7 +196,7 @@
   <div class="modal-backdrop" id="install-modal">
     <div class="modal-window install-modal-window">
       <div class="modal-header">
-        <span>ADD TO CURSOR & VS CODE WORKSPACE</span>
+        <span>CONNECT IDE, GITLAB DUO & GIT HOOKS</span>
         <button class="close-btn" id="close-install-modal-btn">✕</button>
       </div>
       <div class="modal-body install-body">
@@ -233,12 +234,12 @@
       <div class="modal-header" style="padding: 14px 20px; background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
         <div style="display: flex; align-items: center; gap: 8px;">
           <span class="mini-pulse"></span>
-          <span style="font-weight: 800; font-size: 11px; letter-spacing: 0.1em; color: var(--cyan);">SCOPEGUARD // 90-SECOND KINETIC REVEAL</span>
+          <span style="font-weight: 800; font-size: 11px; letter-spacing: 0.1em; color: var(--cyan);">SCOPEGUARD // DEMO VIDEO</span>
         </div>
         <button class="close-btn" id="close-video-modal-btn">✕</button>
       </div>
       <div class="video-container" style="position: relative; padding-bottom: 56.25%; height: 0; background: #000;">
-        <iframe id="video-frame" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0" title="ScopeGuard 90s Kinetic Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe id="video-frame" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0" title="ScopeGuard Demo Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
     </div>
   </div>
